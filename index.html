@@ -33,7 +33,7 @@ body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--texto);min-hei
   text-align:center;letter-spacing:-1px;}
 .logo-sub{font-size:.82rem;color:var(--suave);text-align:center;margin:4px 0 32px;}
 .cards-entrada{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;width:100%;max-width:780px;}
-.card-acesso{background:#fff;border-radius:18px;padding:26px 22px;flex:1;min-width:280px;max-width:360px;
+.card-acesso{background:#fff;border-radius:18px;padding:28px 26px;flex:1;min-width:290px;max-width:380px;
   box-shadow:0 4px 20px rgba(0,0,0,.08);border:2px solid transparent;transition:border .2s,transform .2s;}
 .card-acesso:hover{border-color:var(--azul-l);transform:translateY(-2px);}
 .card-acesso h2{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:5px;}
@@ -44,7 +44,7 @@ body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--texto);min-hei
 .badge-aluno{background:#d1fae5;color:#065f46;}
 
 /* ── INPUTS ── */
-.campo{width:100%;padding:10px 13px;border:2px solid var(--borda);border-radius:10px;
+.campo{width:100%;max-width:320px;padding:11px 14px;border:2px solid var(--borda);border-radius:10px;
   font-size:.92rem;font-family:'DM Sans',sans-serif;margin-bottom:10px;outline:none;
   transition:border .2s;background:var(--bg);}
 .campo:focus{border-color:var(--azul);background:#fff;}
@@ -70,8 +70,8 @@ body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--texto);min-hei
   position:sticky;top:0;z-index:100;}
 .hdr-esq{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .hdr-titulo{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;}
-.cod-badge{background:var(--azul);color:#fff;padding:5px 14px;border-radius:30px;
-  font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;letter-spacing:3px;}
+.cod-badge{background:var(--azul);color:#fff;padding:5px 16px;border-radius:30px;
+  font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;letter-spacing:3px;white-space:nowrap;}
 .cnt-badge{background:var(--verde);color:#fff;padding:3px 11px;border-radius:20px;
   font-size:.8rem;font-weight:600;}
 .dot-live{width:8px;height:8px;background:var(--verde);border-radius:50%;
@@ -83,8 +83,8 @@ body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--texto);min-hei
 .corpo{padding:14px 16px;max-width:1100px;margin:0 auto;}
 
 /* ── ABAS ── */
-.abas{display:flex;gap:3px;background:#fff;border:2px solid var(--borda);
-  border-radius:12px;padding:5px;margin-bottom:16px;width:fit-content;flex-wrap:wrap;}
+.abas{display:inline-flex;gap:3px;background:#fff;border:2px solid var(--borda);
+  border-radius:12px;padding:5px;margin-bottom:16px;flex-wrap:wrap;}
 .aba{padding:8px 16px;border:none;border-radius:9px;font-family:'Syne',sans-serif;
   font-size:.82rem;font-weight:700;cursor:pointer;background:transparent;
   color:var(--suave);transition:all .2s;}
@@ -93,13 +93,13 @@ body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--texto);min-hei
 /* ── CARDS RESUMO ── */
 .resumo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
 @media(min-width:600px){.resumo-grid{grid-template-columns:repeat(6,1fr);}}
-.res-card{background:#fff;border-radius:12px;padding:12px 8px;border:2px solid var(--borda);text-align:center;}
+.res-card{background:#fff;border-radius:12px;padding:14px 10px;border:2px solid var(--borda);text-align:center;min-width:0;}
 .res-val{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--azul);line-height:1;}
 .res-label{font-size:.68rem;color:var(--suave);margin-top:3px;text-transform:uppercase;letter-spacing:.4px;}
 
 /* ── SIGMA CARDS ── */
 .sigma-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
-.sc{border-radius:10px;padding:10px 8px;text-align:center;}
+.sc{border-radius:10px;padding:12px 10px;text-align:center;}
 .sc1{background:rgba(245,158,11,.13);color:#92400e;}
 .sc2{background:rgba(16,185,129,.13);color:#065f46;}
 .sc3{background:rgba(59,130,246,.13);color:#1e3a8a;}
@@ -111,8 +111,8 @@ body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--texto);min-hei
 .box-titulo{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;margin-bottom:12px;}
 
 .vars-lista{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
-.var-chip{padding:7px 14px;border:2px solid var(--borda);border-radius:22px;cursor:pointer;
-  font-size:.8rem;font-weight:500;transition:all .2s;background:#fff;white-space:nowrap;}
+.var-chip{padding:8px 16px;border:2px solid var(--borda);border-radius:22px;cursor:pointer;
+  font-size:.82rem;font-weight:500;transition:all .2s;background:#fff;white-space:nowrap;}
 .var-chip.sel{border-color:var(--azul);background:#eff6ff;color:var(--azul);font-weight:700;}
 .var-chip:hover{border-color:var(--azul-l);}
 .var-chip-add{border-style:dashed;color:var(--suave);}
@@ -145,7 +145,7 @@ body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--texto);min-hei
 @media(min-width:700px){.graficos-grid{grid-template-columns:1fr 1fr;}}
 .graf-box{background:#fff;border-radius:14px;padding:16px;border:2px solid var(--borda);}
 .graf-box h3{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;margin-bottom:10px;}
-.canvas-wrap{position:relative;height:220px;}
+.canvas-wrap{position:relative;height:260px;}
 
 /* ── TABELA ── */
 .tabela-box{background:#fff;border-radius:14px;padding:16px;border:2px solid var(--borda);}
@@ -168,9 +168,9 @@ tr:hover td{background:#f8fafc;}
 .iv-tipo{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--azul);}
 .iv-nome{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;margin:2px 0;}
 .iv-desc{font-size:.78rem;color:var(--suave);line-height:1.5;}
-.input-grande{width:100%;padding:16px;border:3px solid var(--borda);border-radius:13px;
+.input-grande{width:100%;max-width:280px;padding:14px;border:3px solid var(--borda);border-radius:13px;
   font-size:1.6rem;font-family:'Syne',sans-serif;font-weight:800;text-align:center;
-  outline:none;transition:border .2s;margin:14px 0 6px;color:var(--texto);}
+  outline:none;transition:border .2s;margin:14px auto 6px;color:var(--texto);display:block;}
 .input-grande:focus{border-color:var(--azul);}
 .hint{text-align:center;font-size:.75rem;color:var(--suave);margin-bottom:14px;}
 .enviado{text-align:center;padding:20px;display:none;}
@@ -225,22 +225,22 @@ tr:hover td{background:#f8fafc;}
     <div class="logo-sub">Plataforma interativa · Modelagem e Experimentação em Biologia</div>
   </div>
   <div class="cards-entrada">
-    <div class="card-acesso">
+    <div class="card-acesso" style="display:flex;flex-direction:column;align-items:center;text-align:left;">
       <div class="badge badge-prof">Professor</div>
       <h2>Criar sala</h2>
       <p>Defina o código que os alunos usarão e uma senha para proteger seu painel.</p>
       <input class="campo campo-cod" type="text" id="e-cod" placeholder="CÓDIGO (ex: BIO01)" maxlength="8" />
       <input class="campo" type="password" id="e-senha" placeholder="Sua senha" />
       <input class="campo" type="password" id="e-senha2" placeholder="Confirme a senha" />
-      <button class="btn btn-azul btn-full" onclick="entrarProfessor()">Abrir sala</button>
+      <div style="text-align:center;"><button class="btn btn-azul" style="min-width:180px;padding:12px 32px;" onclick="entrarProfessor()">Abrir sala</button></div>
     </div>
-    <div class="card-acesso">
+    <div class="card-acesso" style="display:flex;flex-direction:column;align-items:center;text-align:left;">
       <div class="badge badge-aluno">Aluno</div>
       <h2>Entrar na sala</h2>
       <p>Digite o código que o professor mostrou no projetor e seu nome.</p>
       <input class="campo campo-cod" type="text" id="a-cod" placeholder="CÓDIGO DA SALA" maxlength="8" />
       <input class="campo" type="text" id="a-nome" placeholder="Seu nome" />
-      <button class="btn btn-verde btn-full" onclick="entrarAluno()">Entrar</button>
+      <div style="text-align:center;"><button class="btn btn-verde" style="min-width:180px;padding:12px 32px;" onclick="entrarAluno()">Entrar</button></div>
     </div>
   </div>
 </div>
@@ -262,7 +262,7 @@ tr:hover td{background:#f8fafc;}
   </div>
 
   <div class="corpo">
-    <div class="abas">
+    <div style="margin-bottom:16px;"><div class="abas" style="margin-bottom:0;">
       <button class="aba ativo" onclick="mudarAba('gaussiana',this)">Distribuição Normal</button>
       <button class="aba" onclick="mudarAba('dados',this)">Dados brutos</button>
     </div>
@@ -274,7 +274,7 @@ tr:hover td{background:#f8fafc;}
       <div class="box">
         <div class="box-titulo">Variável sendo coletada</div>
         <div class="vars-lista" id="vars-lista"></div>
-        <button class="btn btn-cinza btn-sm" onclick="abrirModal()" style="margin-top:4px;">+ Nova variável</button>
+        <button class="btn btn-cinza btn-sm" onclick="abrirModal()" style="margin-top:6px;padding:8px 18px;">+ Nova variável</button>
       </div>
 
       <!-- Caixa didática -->
@@ -316,7 +316,7 @@ tr:hover td{background:#f8fafc;}
           <div class="canvas-wrap"><canvas id="cg"></canvas></div>
         </div>
       </div>
-    </div><!-- /aba-gaussiana -->
+    </div></div><!-- /aba-gaussiana -->
 
     <!-- ABA DADOS -->
     <div id="aba-dados" class="hidden">
@@ -337,20 +337,20 @@ tr:hover td{background:#f8fafc;}
 <!-- ===================== PAINEL ALUNO ===================== -->
 <div id="painel-aluno">
   <div class="aluno-wrap">
-    <div class="aluno-card">
+    <div class="aluno-card" style="text-align:center;">
       <div class="badge badge-aluno">Aluno</div>
       <h2 id="al-titulo">Insira seu dado</h2>
       <p style="font-size:.8rem;color:var(--suave);margin-top:3px;">A turma está respondendo juntos!</p>
 
       <div id="form-aluno">
-        <div class="info-var">
+        <div class="info-var" style="text-align:left;">
           <div class="iv-tipo" id="iv-tipo">Variável Contínua</div>
           <div class="iv-nome" id="iv-nome">Altura</div>
           <div class="iv-desc" id="iv-desc">Variável CONTÍNUA: pode assumir qualquer valor numérico.</div>
         </div>
         <input class="input-grande" type="number" id="val-aluno" placeholder="0" step="any" />
         <div class="hint" id="al-hint">Digite em centímetros (cm)</div>
-        <button class="btn btn-verde btn-full" onclick="enviarDado()">Enviar meu dado</button>
+        <div style="text-align:center;"><button class="btn btn-verde" style="min-width:200px;padding:13px 32px;" onclick="enviarDado()">Enviar meu dado</button></div>
       </div>
 
       <div class="enviado" id="enviado">
