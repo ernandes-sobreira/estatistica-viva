@@ -7,23 +7,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --azul:#1a56db; --azul-l:#3b82f6; --verde:#10b981; --laranja:#f59e0b;
-  --vermelho:#ef4444; --lilas:#8b5cf6;
-  --bg:#f8fafc; --borda:#e2e8f0; --texto:#1e293b; --suave:#64748b;
+:root{
+  --azul:#1a56db;--azul-l:#3b82f6;--verde:#10b981;--laranja:#f59e0b;
+  --vermelho:#ef4444;--lilas:#8b5cf6;--rosa:#ec4899;
+  --bg:#f8fafc;--borda:#e2e8f0;--texto:#1e293b;--suave:#64748b;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--texto);min-height:100vh;}
 
-/* ── NOTIF ── */
+/* NOTIF */
 .notif{position:fixed;top:16px;right:16px;padding:10px 18px;border-radius:10px;font-size:.85rem;
-  font-weight:600;color:#fff;transform:translateX(140%);transition:transform .3s;z-index:999;
-  box-shadow:0 4px 16px rgba(0,0,0,.18);}
+  font-weight:600;color:#fff;transform:translateX(150%);transition:transform .3s;z-index:999;
+  box-shadow:0 4px 16px rgba(0,0,0,.18);max-width:260px;}
 .notif.show{transform:translateX(0);}
 
-/* ── TELA ENTRADA ── */
+/* TELA ENTRADA */
 #tela-entrada{min-height:100vh;display:flex;flex-direction:column;align-items:center;
   justify-content:center;background:linear-gradient(135deg,#eef2ff,#f0fdf4,#fff7ed);padding:20px;}
 .logo-icone{width:64px;height:64px;background:var(--azul);border-radius:18px;display:flex;
@@ -31,39 +31,41 @@ body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--texto);min-hei
   box-shadow:0 8px 24px rgba(26,86,219,.3);}
 .logo-titulo{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--azul);
   text-align:center;letter-spacing:-1px;}
-.logo-sub{font-size:.82rem;color:var(--suave);text-align:center;margin:4px 0 32px;}
-.cards-entrada{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;width:100%;max-width:780px;}
-.card-acesso{background:#fff;border-radius:18px;padding:28px 26px;flex:1;min-width:290px;max-width:380px;
-  box-shadow:0 4px 20px rgba(0,0,0,.08);border:2px solid transparent;transition:border .2s,transform .2s;}
+.logo-sub{font-size:.82rem;color:var(--suave);text-align:center;margin:4px 0 28px;}
+.cards-entrada{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;width:100%;max-width:760px;}
+.card-acesso{background:#fff;border-radius:18px;padding:26px 24px;flex:1;min-width:280px;max-width:360px;
+  box-shadow:0 4px 20px rgba(0,0,0,.08);border:2px solid transparent;transition:border .2s,transform .2s;
+  display:flex;flex-direction:column;align-items:center;}
 .card-acesso:hover{border-color:var(--azul-l);transform:translateY(-2px);}
-.card-acesso h2{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:5px;}
-.card-acesso p{font-size:.8rem;color:var(--suave);margin-bottom:16px;line-height:1.5;}
+.card-acesso h2{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:5px;align-self:flex-start;}
+.card-acesso p{font-size:.8rem;color:var(--suave);margin-bottom:16px;line-height:1.5;align-self:flex-start;}
 .badge{display:inline-block;font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px;
-  margin-bottom:12px;letter-spacing:.5px;text-transform:uppercase;}
+  margin-bottom:12px;letter-spacing:.5px;text-transform:uppercase;align-self:flex-start;}
 .badge-prof{background:#dbeafe;color:var(--azul);}
 .badge-aluno{background:#d1fae5;color:#065f46;}
 
-/* ── INPUTS ── */
-.campo{width:100%;max-width:320px;padding:11px 14px;border:2px solid var(--borda);border-radius:10px;
+/* INPUTS */
+.campo{width:100%;max-width:300px;padding:11px 14px;border:2px solid var(--borda);border-radius:10px;
   font-size:.92rem;font-family:'DM Sans',sans-serif;margin-bottom:10px;outline:none;
   transition:border .2s;background:var(--bg);}
 .campo:focus{border-color:var(--azul);background:#fff;}
 .campo-cod{text-transform:uppercase;letter-spacing:3px;font-weight:700;}
+.campo-sm{max-width:140px;padding:9px 12px;font-size:.88rem;}
 
-/* ── BOTÕES ── */
-.btn{padding:11px 16px;border:none;border-radius:10px;font-family:'Syne',sans-serif;
-  font-size:.88rem;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s;}
+/* BOTÕES */
+.btn{padding:10px 22px;border:none;border-radius:10px;font-family:'Syne',sans-serif;
+  font-size:.88rem;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s;
+  white-space:nowrap;}
 .btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.14);}
 .btn:active{transform:scale(.97);}
-.btn-full{width:100%;}
 .btn-azul{background:var(--azul);color:#fff;}
 .btn-verde{background:var(--verde);color:#fff;}
 .btn-cinza{background:var(--borda);color:var(--texto);}
 .btn-vermelho{background:var(--vermelho);color:#fff;}
-.btn-laranja{background:var(--laranja);color:#fff;}
-.btn-sm{padding:6px 12px;font-size:.78rem;border-radius:8px;}
+.btn-lilas{background:var(--lilas);color:#fff;}
+.btn-sm{padding:6px 14px;font-size:.78rem;border-radius:8px;}
 
-/* ── HEADER PROF ── */
+/* HEADER PROF */
 #painel-professor{display:none;min-height:100vh;background:var(--bg);}
 .hdr{background:#fff;border-bottom:2px solid var(--borda);padding:10px 16px;
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
@@ -72,32 +74,73 @@ body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--texto);min-hei
 .hdr-titulo{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;}
 .cod-badge{background:var(--azul);color:#fff;padding:5px 16px;border-radius:30px;
   font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;letter-spacing:3px;white-space:nowrap;}
-.cnt-badge{background:var(--verde);color:#fff;padding:3px 11px;border-radius:20px;
-  font-size:.8rem;font-weight:600;}
+.cnt-badge{background:var(--verde);color:#fff;padding:4px 12px;border-radius:20px;
+  font-size:.8rem;font-weight:600;white-space:nowrap;}
 .dot-live{width:8px;height:8px;background:var(--verde);border-radius:50%;
   display:inline-block;animation:pulse 2s ease-in-out infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .hdr-dir{display:flex;gap:6px;flex-wrap:wrap;}
 
-/* ── CORPO PAINEL ── */
+/* CORPO */
 .corpo{padding:14px 16px;max-width:1100px;margin:0 auto;}
 
-/* ── ABAS ── */
-.abas{display:inline-flex;gap:3px;background:#fff;border:2px solid var(--borda);
-  border-radius:12px;padding:5px;margin-bottom:16px;flex-wrap:wrap;}
-.aba{padding:8px 16px;border:none;border-radius:9px;font-family:'Syne',sans-serif;
-  font-size:.82rem;font-weight:700;cursor:pointer;background:transparent;
-  color:var(--suave);transition:all .2s;}
-.aba.ativo{background:var(--azul);color:#fff;}
+/* ABAS DISTRIBUIÇÃO */
+.dist-abas{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px;
+  background:#fff;border:2px solid var(--borda);border-radius:14px;padding:5px;width:fit-content;}
+.dist-aba{padding:9px 18px;border:none;border-radius:10px;font-family:'Syne',sans-serif;
+  font-size:.82rem;font-weight:700;cursor:pointer;background:transparent;color:var(--suave);
+  transition:all .2s;white-space:nowrap;}
+.dist-aba.ativo{color:#fff;}
+.dist-aba.ativo.aba-normal{background:var(--azul);}
+.dist-aba.ativo.aba-binomial{background:var(--verde);}
+.dist-aba.ativo.aba-poisson{background:var(--laranja);}
+.dist-aba.ativo.aba-qui{background:var(--lilas);}
 
-/* ── CARDS RESUMO ── */
+/* ABAS INTERNO (dados brutos) */
+.sub-abas{display:flex;gap:3px;background:var(--bg);border:2px solid var(--borda);
+  border-radius:10px;padding:4px;width:fit-content;margin-bottom:14px;}
+.sub-aba{padding:7px 14px;border:none;border-radius:8px;font-family:'Syne',sans-serif;
+  font-size:.78rem;font-weight:700;cursor:pointer;background:transparent;
+  color:var(--suave);transition:all .2s;}
+.sub-aba.ativo{background:var(--azul);color:#fff;}
+
+/* BOX */
+.box{background:#fff;border-radius:14px;padding:16px;border:2px solid var(--borda);margin-bottom:14px;}
+.box-titulo{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;margin-bottom:12px;}
+
+/* CAIXA DIDÁTICA */
+.didatica{border-radius:14px;padding:16px;margin-bottom:14px;border:2px solid;}
+.did-normal{background:linear-gradient(135deg,#eff6ff,#f0fdf4);border-color:#bfdbfe;}
+.did-binomial{background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border-color:#a7f3d0;}
+.did-poisson{background:linear-gradient(135deg,#fffbeb,#fff7ed);border-color:#fde68a;}
+.did-qui{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-color:#c4b5fd;}
+.didatica h3{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:800;margin-bottom:8px;}
+.did-normal h3{color:var(--azul);}
+.did-binomial h3{color:#065f46;}
+.did-poisson h3{color:#92400e;}
+.did-qui h3{color:#5b21b6;}
+.didatica p{font-size:.82rem;line-height:1.6;}
+.faixas{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px;}
+@media(min-width:560px){.faixas{grid-template-columns:repeat(3,1fr);}}
+.fx{border-radius:9px;padding:10px 12px;font-size:.78rem;line-height:1.5;}
+.fx1{background:rgba(245,158,11,.14);border-left:4px solid var(--laranja);}
+.fx2{background:rgba(16,185,129,.12);border-left:4px solid var(--verde);}
+.fx3{background:rgba(59,130,246,.12);border-left:4px solid var(--azul-l);}
+.fx4{background:rgba(139,92,246,.12);border-left:4px solid var(--lilas);}
+
+/* PARÂMETROS PROF */
+.params-row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;}
+.param-group{display:flex;flex-direction:column;gap:4px;}
+.param-label{font-size:.72rem;font-weight:700;color:var(--suave);text-transform:uppercase;letter-spacing:.4px;}
+
+/* RESUMO */
 .resumo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
-@media(min-width:600px){.resumo-grid{grid-template-columns:repeat(6,1fr);}}
+@media(min-width:560px){.resumo-grid{grid-template-columns:repeat(6,1fr);}}
 .res-card{background:#fff;border-radius:12px;padding:14px 10px;border:2px solid var(--borda);text-align:center;min-width:0;}
-.res-val{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--azul);line-height:1;}
+.res-val{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;color:var(--azul);line-height:1.1;}
 .res-label{font-size:.68rem;color:var(--suave);margin-top:3px;text-transform:uppercase;letter-spacing:.4px;}
 
-/* ── SIGMA CARDS ── */
+/* SIGMA */
 .sigma-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
 .sc{border-radius:10px;padding:12px 10px;text-align:center;}
 .sc1{background:rgba(245,158,11,.13);color:#92400e;}
@@ -106,48 +149,21 @@ body{font-family:'DM Sans',sans-serif;background:#fff;color:var(--texto);min-hei
 .sc-pct{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;}
 .sc-txt{font-size:.68rem;margin-top:2px;}
 
-/* ── CONFIG VARIÁVEL ── */
-.box{background:#fff;border-radius:14px;padding:16px;border:2px solid var(--borda);margin-bottom:14px;}
-.box-titulo{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;margin-bottom:12px;}
-
+/* VARS */
 .vars-lista{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
 .var-chip{padding:8px 16px;border:2px solid var(--borda);border-radius:22px;cursor:pointer;
   font-size:.82rem;font-weight:500;transition:all .2s;background:#fff;white-space:nowrap;}
 .var-chip.sel{border-color:var(--azul);background:#eff6ff;color:var(--azul);font-weight:700;}
 .var-chip:hover{border-color:var(--azul-l);}
-.var-chip-add{border-style:dashed;color:var(--suave);}
-.var-chip-add:hover{border-color:var(--verde);color:var(--verde);}
 
-/* modal nova var */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;
-  align-items:center;justify-content:center;z-index:200;padding:16px;}
-.modal{background:#fff;border-radius:18px;padding:24px;width:100%;max-width:420px;
-  box-shadow:0 8px 32px rgba(0,0,0,.18);}
-.modal h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:16px;}
-.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.modal-label{font-size:.75rem;font-weight:600;margin-bottom:4px;color:var(--suave);text-transform:uppercase;}
-.modal-btns{display:flex;gap:8px;margin-top:14px;}
-
-/* ── CAIXA DIDÁTICA ── */
-.didatica{background:linear-gradient(135deg,#eff6ff,#f0fdf4);border-radius:14px;
-  padding:16px;border:2px solid #bfdbfe;margin-bottom:14px;}
-.didatica h3{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:800;color:var(--azul);margin-bottom:8px;}
-.didatica p{font-size:.82rem;line-height:1.6;}
-.faixas{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px;}
-@media(min-width:600px){.faixas{grid-template-columns:repeat(3,1fr);}}
-.fx{border-radius:9px;padding:10px;font-size:.78rem;line-height:1.4;}
-.fx1{background:rgba(245,158,11,.14);border-left:4px solid var(--laranja);}
-.fx2{background:rgba(16,185,129,.12);border-left:4px solid var(--verde);}
-.fx3{background:rgba(59,130,246,.12);border-left:4px solid var(--azul-l);}
-
-/* ── GRÁFICOS ── */
+/* GRÁFICOS */
 .graficos-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px;}
 @media(min-width:700px){.graficos-grid{grid-template-columns:1fr 1fr;}}
 .graf-box{background:#fff;border-radius:14px;padding:16px;border:2px solid var(--borda);}
 .graf-box h3{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;margin-bottom:10px;}
 .canvas-wrap{position:relative;height:260px;}
 
-/* ── TABELA ── */
+/* TABELA */
 .tabela-box{background:#fff;border-radius:14px;padding:16px;border:2px solid var(--borda);}
 .tabela-box h3{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;margin-bottom:10px;}
 .tbl-hdr{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
@@ -157,61 +173,78 @@ th{background:var(--bg);padding:7px 10px;text-align:left;font-weight:600;font-si
 td{padding:7px 10px;border-bottom:1px solid var(--borda);}
 tr:hover td{background:#f8fafc;}
 
-/* ── PAINEL ALUNO ── */
-#painel-aluno{display:none;min-height:100vh;background:linear-gradient(135deg,#f0f9ff,#f0fdf4);
-  padding:16px;display:none;}
-.aluno-wrap{max-width:440px;margin:0 auto;padding-top:16px;}
+/* PAINEL ALUNO */
+#painel-aluno{display:none;min-height:100vh;background:linear-gradient(135deg,#f0f9ff,#f0fdf4);padding:16px;}
+.aluno-wrap{max-width:420px;margin:0 auto;padding-top:16px;}
 .aluno-card{background:#fff;border-radius:18px;padding:24px;
-  box-shadow:0 4px 20px rgba(0,0,0,.08);border:2px solid var(--borda);}
-.aluno-card h2{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:4px;}
-.info-var{background:#eff6ff;border-radius:11px;padding:13px;margin:14px 0;border-left:4px solid var(--azul);}
+  box-shadow:0 4px 20px rgba(0,0,0,.08);border:2px solid var(--borda);
+  display:flex;flex-direction:column;align-items:center;text-align:center;}
+.aluno-card h2{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:4px;align-self:flex-start;}
+.info-var{background:#eff6ff;border-radius:11px;padding:13px 14px;margin:14px 0;
+  border-left:4px solid var(--azul);text-align:left;width:100%;}
 .iv-tipo{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--azul);}
 .iv-nome{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800;margin:2px 0;}
 .iv-desc{font-size:.78rem;color:var(--suave);line-height:1.5;}
-.input-grande{width:100%;max-width:280px;padding:14px;border:3px solid var(--borda);border-radius:13px;
+.input-grande{width:100%;max-width:240px;padding:14px;border:3px solid var(--borda);border-radius:13px;
   font-size:1.6rem;font-family:'Syne',sans-serif;font-weight:800;text-align:center;
   outline:none;transition:border .2s;margin:14px auto 6px;color:var(--texto);display:block;}
 .input-grande:focus{border-color:var(--azul);}
-.hint{text-align:center;font-size:.75rem;color:var(--suave);margin-bottom:14px;}
-.enviado{text-align:center;padding:20px;display:none;}
+.hint{font-size:.75rem;color:var(--suave);margin-bottom:14px;}
+.enviado{text-align:center;padding:20px;display:none;width:100%;}
 .enviado .icone{font-size:2.8rem;margin-bottom:10px;}
 .enviado h3{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--verde);margin-bottom:6px;}
 .enviado p{font-size:.82rem;color:var(--suave);}
 
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;
+  align-items:center;justify-content:center;z-index:200;padding:16px;}
+.modal{background:#fff;border-radius:18px;padding:24px;width:100%;max-width:400px;
+  box-shadow:0 8px 32px rgba(0,0,0,.18);}
+.modal h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:16px;}
+.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.modal-label{font-size:.72rem;font-weight:600;margin-bottom:4px;color:var(--suave);text-transform:uppercase;}
+.modal-btns{display:flex;gap:8px;margin-top:14px;justify-content:center;}
+
+/* INFO CARD (parâmetros teóricos exibidos) */
+.param-card{background:var(--bg);border-radius:10px;padding:12px 16px;border:2px solid var(--borda);
+  font-size:.82rem;margin-bottom:14px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+.param-card span{font-family:'Syne',sans-serif;font-weight:700;}
+
 .hidden{display:none!important;}
+.mt8{margin-top:8px;}
 </style>
 </head>
 <body>
 
 <div class="notif" id="notif"></div>
 
-<!-- ===================== MODAL NOVA VARIÁVEL ===================== -->
+<!-- MODAL NOVA VARIÁVEL -->
 <div class="modal-overlay hidden" id="modal-var">
   <div class="modal">
     <h3>Adicionar variável</h3>
     <div style="margin-bottom:10px;">
       <div class="modal-label">Nome da variável</div>
-      <input class="campo" id="mv-nome" placeholder="Ex: Comprimento padrão" />
+      <input class="campo" style="max-width:100%;" id="mv-nome" placeholder="Ex: Comprimento padrão" />
     </div>
     <div class="modal-row">
       <div>
         <div class="modal-label">Unidade</div>
-        <input class="campo" id="mv-unidade" placeholder="Ex: cm" />
+        <input class="campo campo-sm" style="max-width:100%;" id="mv-unidade" placeholder="cm" />
       </div>
       <div>
         <div class="modal-label">Tipo</div>
-        <select class="campo" id="mv-tipo">
+        <select class="campo campo-sm" style="max-width:100%;" id="mv-tipo">
           <option value="continua">Contínua</option>
           <option value="discreta">Discreta</option>
         </select>
       </div>
     </div>
-    <div style="margin-bottom:6px;">
+    <div>
       <div class="modal-label">Descrição para o aluno</div>
-      <input class="campo" id="mv-desc" placeholder="Ex: Variável CONTÍNUA: medida de comprimento..." />
+      <input class="campo" style="max-width:100%;" id="mv-desc" placeholder="Ex: Variável CONTÍNUA: comprimento em cm." />
     </div>
     <div class="modal-btns">
-      <button class="btn btn-azul btn-full" onclick="confirmarNovaVar()">Adicionar</button>
+      <button class="btn btn-azul" onclick="confirmarNovaVar()">Adicionar</button>
       <button class="btn btn-cinza" onclick="fecharModal()">Cancelar</button>
     </div>
   </div>
@@ -225,22 +258,26 @@ tr:hover td{background:#f8fafc;}
     <div class="logo-sub">Plataforma interativa · Modelagem e Experimentação em Biologia</div>
   </div>
   <div class="cards-entrada">
-    <div class="card-acesso" style="display:flex;flex-direction:column;align-items:center;text-align:left;">
+    <div class="card-acesso">
       <div class="badge badge-prof">Professor</div>
       <h2>Criar sala</h2>
       <p>Defina o código que os alunos usarão e uma senha para proteger seu painel.</p>
       <input class="campo campo-cod" type="text" id="e-cod" placeholder="CÓDIGO (ex: BIO01)" maxlength="8" />
       <input class="campo" type="password" id="e-senha" placeholder="Sua senha" />
       <input class="campo" type="password" id="e-senha2" placeholder="Confirme a senha" />
-      <div style="text-align:center;"><button class="btn btn-azul" style="min-width:180px;padding:12px 32px;" onclick="entrarProfessor()">Abrir sala</button></div>
+      <div style="margin-top:4px;">
+        <button class="btn btn-azul" style="min-width:180px;padding:12px 32px;" onclick="entrarProfessor()">Abrir sala</button>
+      </div>
     </div>
-    <div class="card-acesso" style="display:flex;flex-direction:column;align-items:center;text-align:left;">
+    <div class="card-acesso">
       <div class="badge badge-aluno">Aluno</div>
       <h2>Entrar na sala</h2>
       <p>Digite o código que o professor mostrou no projetor e seu nome.</p>
       <input class="campo campo-cod" type="text" id="a-cod" placeholder="CÓDIGO DA SALA" maxlength="8" />
       <input class="campo" type="text" id="a-nome" placeholder="Seu nome" />
-      <div style="text-align:center;"><button class="btn btn-verde" style="min-width:180px;padding:12px 32px;" onclick="entrarAluno()">Entrar</button></div>
+      <div style="margin-top:4px;">
+        <button class="btn btn-verde" style="min-width:180px;padding:12px 32px;" onclick="entrarAluno()">Entrar</button>
+      </div>
     </div>
   </div>
 </div>
@@ -252,7 +289,7 @@ tr:hover td{background:#f8fafc;}
       <span class="hdr-titulo">📊 Estatística Viva</span>
       <span class="cod-badge" id="cod-exibido">---</span>
       <span class="cnt-badge" id="cnt-badge">0 respostas</span>
-      <span class="dot-live" title="Ao vivo"></span>
+      <span class="dot-live"></span>
     </div>
     <div class="hdr-dir">
       <button class="btn btn-cinza btn-sm" onclick="carregarDemo()">Demo</button>
@@ -262,25 +299,28 @@ tr:hover td{background:#f8fafc;}
   </div>
 
   <div class="corpo">
-    <div style="margin-bottom:16px;"><div class="abas" style="margin-bottom:0;">
-      <button class="aba ativo" onclick="mudarAba('gaussiana',this)">Distribuição Normal</button>
-      <button class="aba" onclick="mudarAba('dados',this)">Dados brutos</button>
+
+    <!-- ABAS DISTRIBUIÇÃO -->
+    <div style="margin-bottom:16px;overflow-x:auto;">
+      <div class="dist-abas">
+        <button class="dist-aba aba-normal ativo" onclick="mudarDist('normal',this)">📈 Normal</button>
+        <button class="dist-aba aba-binomial" onclick="mudarDist('binomial',this)">🎲 Binomial</button>
+        <button class="dist-aba aba-poisson" onclick="mudarDist('poisson',this)">⚡ Poisson</button>
+        <button class="dist-aba aba-qui" onclick="mudarDist('qui',this)">χ² Qui-quadrado</button>
+      </div>
     </div>
 
-    <!-- ABA GAUSSIANA -->
-    <div id="aba-gaussiana">
-
-      <!-- Variáveis -->
+    <!-- ===== ABA NORMAL ===== -->
+    <div id="dist-normal">
       <div class="box">
         <div class="box-titulo">Variável sendo coletada</div>
         <div class="vars-lista" id="vars-lista"></div>
-        <button class="btn btn-cinza btn-sm" onclick="abrirModal()" style="margin-top:6px;padding:8px 18px;">+ Nova variável</button>
+        <button class="btn btn-cinza btn-sm" style="padding:8px 18px;margin-top:6px;" onclick="abrirModal()">+ Nova variável</button>
       </div>
 
-      <!-- Caixa didática -->
-      <div class="didatica">
-        <h3 id="did-titulo">O que é a Distribuição Normal (Gaussiana)?</h3>
-        <p id="did-texto">A curva em forma de sino descreve como muitos fenômenos biológicos se distribuem na natureza. A maioria dos valores se concentra em torno da média, e valores extremos são raros.</p>
+      <div class="didatica did-normal">
+        <h3>Distribuição Normal (Gaussiana)</h3>
+        <p>A curva em forma de sino descreve como muitos fenômenos biológicos se distribuem. A maioria dos valores se concentra em torno da média e valores extremos são raros. Usada para variáveis <strong>contínuas</strong> como altura, peso e temperatura.</p>
         <div class="faixas">
           <div class="fx fx1"><strong>68%</strong> dos dados ficam dentro de ±1σ da média</div>
           <div class="fx fx2"><strong>95%</strong> dos dados ficam dentro de ±2σ da média</div>
@@ -288,7 +328,6 @@ tr:hover td{background:#f8fafc;}
         </div>
       </div>
 
-      <!-- Resumo -->
       <div class="resumo-grid">
         <div class="res-card"><div class="res-val" id="r-n">0</div><div class="res-label">n</div></div>
         <div class="res-card"><div class="res-val" id="r-media">—</div><div class="res-label">Média μ</div></div>
@@ -297,60 +336,200 @@ tr:hover td{background:#f8fafc;}
         <div class="res-card"><div class="res-val" id="r-max">—</div><div class="res-label">Máx.</div></div>
         <div class="res-card"><div class="res-val" id="r-med">—</div><div class="res-label">Mediana</div></div>
       </div>
-
-      <!-- Sigma -->
       <div class="sigma-grid">
         <div class="sc sc1"><div class="sc-pct" id="s1">0%</div><div class="sc-txt">dentro de ±1σ<br><span style="opacity:.7">esperado 68,3%</span></div></div>
         <div class="sc sc2"><div class="sc-pct" id="s2">0%</div><div class="sc-txt">dentro de ±2σ<br><span style="opacity:.7">esperado 95,4%</span></div></div>
         <div class="sc sc3"><div class="sc-pct" id="s3">0%</div><div class="sc-txt">dentro de ±3σ<br><span style="opacity:.7">esperado 99,7%</span></div></div>
       </div>
-
-      <!-- Gráficos -->
       <div class="graficos-grid">
-        <div class="graf-box">
-          <h3>Histograma + Curva ajustada</h3>
-          <div class="canvas-wrap"><canvas id="ch"></canvas></div>
-        </div>
-        <div class="graf-box">
-          <h3>Curva Normal com faixas σ</h3>
-          <div class="canvas-wrap"><canvas id="cg"></canvas></div>
+        <div class="graf-box"><h3>Histograma + Curva ajustada</h3><div class="canvas-wrap"><canvas id="ch-normal"></canvas></div></div>
+        <div class="graf-box"><h3>Curva Normal com faixas σ</h3><div class="canvas-wrap"><canvas id="cg-normal"></canvas></div></div>
+      </div>
+      <div class="sub-abas">
+        <button class="sub-aba ativo" onclick="mudarSub('normal-graf',this,'sub-normal')">Gráficos</button>
+        <button class="sub-aba" onclick="mudarSub('normal-tab',this,'sub-normal')">Dados brutos</button>
+      </div>
+      <div id="normal-tab" class="hidden">
+        <div class="tabela-box">
+          <div class="tbl-hdr"><h3 style="margin:0">Dados dos alunos</h3><button class="btn btn-cinza btn-sm" onclick="exportarCSV()">Exportar CSV</button></div>
+          <table><thead><tr><th>#</th><th>Nome</th><th>Variável</th><th>Valor</th><th>Hora</th></tr></thead><tbody id="tbody-normal"></tbody></table>
         </div>
       </div>
-    </div></div><!-- /aba-gaussiana -->
+    </div><!-- /dist-normal -->
 
-    <!-- ABA DADOS -->
-    <div id="aba-dados" class="hidden">
-      <div class="tabela-box">
-        <div class="tbl-hdr">
-          <h3 style="margin:0">Dados inseridos pelos alunos</h3>
-          <button class="btn btn-cinza btn-sm" onclick="exportarCSV()">Exportar CSV</button>
+    <!-- ===== ABA BINOMIAL ===== -->
+    <div id="dist-binomial" class="hidden">
+      <div class="didatica did-binomial">
+        <h3>Distribuição Binomial</h3>
+        <p>Modela o número de <strong>sucessos</strong> em <em>n</em> tentativas independentes, cada uma com probabilidade <em>p</em> de sucesso. Usada para variáveis <strong>discretas</strong> como "quantas vezes saiu cara em 10 lançamentos" ou "quantos organismos sobreviveram em um lote".</p>
+        <div class="faixas">
+          <div class="fx fx1"><strong>Parâmetros:</strong> n = nº de tentativas, p = probabilidade de sucesso (0 a 1)</div>
+          <div class="fx fx2"><strong>Média teórica:</strong> μ = n × p</div>
+          <div class="fx fx3"><strong>Variância teórica:</strong> σ² = n × p × (1−p)</div>
         </div>
-        <table>
-          <thead><tr><th>#</th><th>Nome</th><th>Variável</th><th>Valor</th><th>Hora</th></tr></thead>
-          <tbody id="tbody"></tbody>
-        </table>
       </div>
-    </div>
-  </div>
-</div>
+
+      <div class="box">
+        <div class="box-titulo">Parâmetros da distribuição (professor define)</div>
+        <div class="params-row">
+          <div class="param-group">
+            <div class="param-label">n (tentativas)</div>
+            <input class="campo campo-sm" type="number" id="bn-n" value="10" min="1" max="100" oninput="recalcBinomial()" />
+          </div>
+          <div class="param-group">
+            <div class="param-label">p (prob. sucesso)</div>
+            <input class="campo campo-sm" type="number" id="bn-p" value="0.5" min="0.01" max="0.99" step="0.01" oninput="recalcBinomial()" />
+          </div>
+          <div class="param-group">
+            <div class="param-label">Descrição para aluno</div>
+            <input class="campo" style="max-width:280px;" type="text" id="bn-desc" value="Quantas vezes saiu cara em 10 lançamentos?" oninput="publicarConfigBinomial()" />
+          </div>
+          <button class="btn btn-verde btn-sm" onclick="publicarConfigBinomial()">Aplicar</button>
+        </div>
+      </div>
+
+      <div class="param-card" id="bn-resumo">
+        <div>Parâmetros: <span id="bn-params-txt">n=10, p=0,50</span></div>
+        <div>μ teórica: <span id="bn-mu">5,00</span></div>
+        <div>σ teórica: <span id="bn-sigma">1,58</span></div>
+        <div>Respostas: <span id="bn-n-resp">0</span></div>
+      </div>
+
+      <div class="graficos-grid">
+        <div class="graf-box"><h3>Coleta real vs Curva teórica</h3><div class="canvas-wrap"><canvas id="ch-binomial"></canvas></div></div>
+        <div class="graf-box"><h3>Curva Binomial teórica (P(X=k))</h3><div class="canvas-wrap"><canvas id="cg-binomial"></canvas></div></div>
+      </div>
+      <div class="sub-abas">
+        <button class="sub-aba ativo" onclick="mudarSub('binomial-graf',this,'sub-binomial')">Gráficos</button>
+        <button class="sub-aba" onclick="mudarSub('binomial-tab',this,'sub-binomial')">Dados brutos</button>
+      </div>
+      <div id="binomial-tab" class="hidden">
+        <div class="tabela-box">
+          <div class="tbl-hdr"><h3 style="margin:0">Dados — Binomial</h3></div>
+          <table><thead><tr><th>#</th><th>Nome</th><th>Valor (k)</th><th>Hora</th></tr></thead><tbody id="tbody-binomial"></tbody></table>
+        </div>
+      </div>
+    </div><!-- /dist-binomial -->
+
+    <!-- ===== ABA POISSON ===== -->
+    <div id="dist-poisson" class="hidden">
+      <div class="didatica did-poisson">
+        <h3>Distribuição de Poisson</h3>
+        <p>Modela o número de <strong>eventos raros</strong> que ocorrem em um intervalo fixo de tempo ou espaço. Usada para variáveis <strong>discretas</strong> como "número de organismos por quadrat", "número de coliformes por mL" ou "número de espécies invasoras por parcela".</p>
+        <div class="faixas">
+          <div class="fx fx1"><strong>Parâmetro:</strong> λ (lambda) = taxa média de eventos no intervalo</div>
+          <div class="fx fx2"><strong>Média = Variância = λ</strong> — propriedade única de Poisson</div>
+          <div class="fx fx3"><strong>Condição:</strong> eventos independentes, taxa constante, dois eventos não ocorrem simultaneamente</div>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="box-titulo">Parâmetros da distribuição (professor define)</div>
+        <div class="params-row">
+          <div class="param-group">
+            <div class="param-label">λ (lambda)</div>
+            <input class="campo campo-sm" type="number" id="po-lambda" value="3" min="0.1" max="30" step="0.1" oninput="recalcPoisson()" />
+          </div>
+          <div class="param-group">
+            <div class="param-label">Descrição para aluno</div>
+            <input class="campo" style="max-width:280px;" type="text" id="po-desc" value="Quantos organismos você contou no quadrat?" oninput="publicarConfigPoisson()" />
+          </div>
+          <button class="btn btn-laranja btn-sm" style="background:var(--laranja);color:#fff;" onclick="publicarConfigPoisson()">Aplicar</button>
+        </div>
+      </div>
+
+      <div class="param-card" id="po-resumo">
+        <div>λ = <span id="po-lambda-txt">3,0</span></div>
+        <div>μ = σ² = <span id="po-mu">3,0</span></div>
+        <div>Respostas: <span id="po-n-resp">0</span></div>
+      </div>
+
+      <div class="graficos-grid">
+        <div class="graf-box"><h3>Coleta real vs Curva teórica</h3><div class="canvas-wrap"><canvas id="ch-poisson"></canvas></div></div>
+        <div class="graf-box"><h3>Curva Poisson teórica (P(X=k))</h3><div class="canvas-wrap"><canvas id="cg-poisson"></canvas></div></div>
+      </div>
+      <div class="sub-abas">
+        <button class="sub-aba ativo" onclick="mudarSub('poisson-graf',this,'sub-poisson')">Gráficos</button>
+        <button class="sub-aba" onclick="mudarSub('poisson-tab',this,'sub-poisson')">Dados brutos</button>
+      </div>
+      <div id="poisson-tab" class="hidden">
+        <div class="tabela-box">
+          <div class="tbl-hdr"><h3 style="margin:0">Dados — Poisson</h3></div>
+          <table><thead><tr><th>#</th><th>Nome</th><th>Valor (k)</th><th>Hora</th></tr></thead><tbody id="tbody-poisson"></tbody></table>
+        </div>
+      </div>
+    </div><!-- /dist-poisson -->
+
+    <!-- ===== ABA QUI-QUADRADO ===== -->
+    <div id="dist-qui" class="hidden">
+      <div class="didatica did-qui">
+        <h3>Distribuição Qui-quadrado (χ²)</h3>
+        <p>Surge da soma de quadrados de variáveis normais padronizadas. Usada em testes de <strong>aderência</strong> (os dados seguem uma distribuição esperada?) e de <strong>independência</strong> entre variáveis categóricas. O parâmetro é <em>ν</em> (graus de liberdade).</p>
+        <div class="faixas">
+          <div class="fx fx4"><strong>Parâmetro:</strong> ν = graus de liberdade (k − 1 categorias)</div>
+          <div class="fx fx2"><strong>Média = ν</strong>, Variância = 2ν</div>
+          <div class="fx fx3"><strong>Teste:</strong> χ² = Σ (O−E)²/E — compara observado vs esperado</div>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="box-titulo">Parâmetros e categorias (professor define)</div>
+        <div class="params-row" style="margin-bottom:12px;">
+          <div class="param-group">
+            <div class="param-label">Graus de liberdade (ν)</div>
+            <input class="campo campo-sm" type="number" id="qi-gl" value="3" min="1" max="20" oninput="recalcQui()" />
+          </div>
+          <div class="param-group">
+            <div class="param-label">Nível de significância</div>
+            <select class="campo campo-sm" id="qi-alpha" onchange="recalcQui()">
+              <option value="0.05">α = 0,05</option>
+              <option value="0.01">α = 0,01</option>
+              <option value="0.10">α = 0,10</option>
+            </select>
+          </div>
+        </div>
+        <div style="font-size:.82rem;color:var(--suave);margin-bottom:10px;">Categorias observadas (alunos informam a frequência de cada categoria):</div>
+        <div id="qi-cats-wrap" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <input class="campo campo-sm" type="text" id="qi-nova-cat" placeholder="Nome da categoria" style="max-width:180px;" />
+          <input class="campo campo-sm" type="number" id="qi-nova-esp" placeholder="Freq. esperada" style="max-width:140px;" />
+          <button class="btn btn-lilas btn-sm" onclick="adicionarCategoria()">+ Categoria</button>
+        </div>
+      </div>
+
+      <div class="param-card">
+        <div>ν = <span id="qi-gl-txt">3</span></div>
+        <div>χ² crítico: <span id="qi-critico">7,815</span></div>
+        <div>χ² calculado: <span id="qi-calculado">—</span></div>
+        <div>Decisão: <span id="qi-decisao" style="font-weight:700;">aguardando dados</span></div>
+      </div>
+
+      <div class="graficos-grid">
+        <div class="graf-box"><h3>Observado vs Esperado por categoria</h3><div class="canvas-wrap"><canvas id="ch-qui"></canvas></div></div>
+        <div class="graf-box"><h3>Curva χ² com região crítica</h3><div class="canvas-wrap"><canvas id="cg-qui"></canvas></div></div>
+      </div>
+    </div><!-- /dist-qui -->
+
+  </div><!-- /corpo -->
+</div><!-- /painel-professor -->
 
 <!-- ===================== PAINEL ALUNO ===================== -->
 <div id="painel-aluno">
   <div class="aluno-wrap">
-    <div class="aluno-card" style="text-align:center;">
-      <div class="badge badge-aluno">Aluno</div>
+    <div class="aluno-card">
+      <div class="badge badge-aluno" style="align-self:flex-start;">Aluno</div>
       <h2 id="al-titulo">Insira seu dado</h2>
-      <p style="font-size:.8rem;color:var(--suave);margin-top:3px;">A turma está respondendo juntos!</p>
+      <p style="font-size:.8rem;color:var(--suave);margin-top:3px;align-self:flex-start;">A turma está respondendo juntos!</p>
 
-      <div id="form-aluno">
-        <div class="info-var" style="text-align:left;">
-          <div class="iv-tipo" id="iv-tipo">Variável Contínua</div>
-          <div class="iv-nome" id="iv-nome">Altura</div>
-          <div class="iv-desc" id="iv-desc">Variável CONTÍNUA: pode assumir qualquer valor numérico.</div>
+      <div id="form-aluno" style="width:100%;">
+        <div class="info-var">
+          <div class="iv-tipo" id="iv-tipo">Variável</div>
+          <div class="iv-nome" id="iv-nome">—</div>
+          <div class="iv-desc" id="iv-desc">Aguardando o professor configurar a sala...</div>
         </div>
         <input class="input-grande" type="number" id="val-aluno" placeholder="0" step="any" />
-        <div class="hint" id="al-hint">Digite em centímetros (cm)</div>
-        <div style="text-align:center;"><button class="btn btn-verde" style="min-width:200px;padding:13px 32px;" onclick="enviarDado()">Enviar meu dado</button></div>
+        <div class="hint" id="al-hint">Digite o valor</div>
+        <button class="btn btn-verde" style="min-width:200px;padding:13px 32px;" onclick="enviarDado()">Enviar meu dado</button>
       </div>
 
       <div class="enviado" id="enviado">
@@ -363,6 +542,7 @@ tr:hover td{background:#f8fafc;}
   </div>
 </div>
 
+<!-- ===================== JAVASCRIPT ===================== -->
 <script>
 // ── FIREBASE ──────────────────────────────────────────────────
 const firebaseConfig = {
@@ -374,388 +554,785 @@ const firebaseConfig = {
   messagingSenderId: "1044664862619",
   appId: "1:1044664862619:web:363f9c714f6aa179c2833e"
 };
-
 let db = null, modoFB = false;
 try { firebase.initializeApp(firebaseConfig); db = firebase.database(); modoFB = true; } catch(e) {}
 
 // ── ESTADO ────────────────────────────────────────────────────
 let sala = '', senhaSala = '', nomeAluno = '';
-let dadosObj = {};
+let dadosNormal = {}, dadosBinomial = {}, dadosPoisson = {}, dadosQui = {};
 let varAtual = null;
-let listenerDados = null;
-let chartH = null, chartG = null;
+let distAtual = 'normal';
+let listeners = {};
+let charts = {};
+
+// Parâmetros
+let bnN = 10, bnP = 0.5;
+let poLambda = 3;
+let qiGL = 3, qiAlpha = 0.05;
+let qiCategorias = []; // [{nome, esperado}]
 
 // Variáveis pré-definidas
-let varsPredefinidas = [
-  { chave:'idade',   nome:'Idade',           unidade:'anos', tipo:'discreta', desc:'Variável DISCRETA: valores inteiros contáveis. Ex: 18, 19, 20 anos.' },
-  { chave:'altura',  nome:'Altura',           unidade:'cm',   tipo:'continua', desc:'Variável CONTÍNUA: pode assumir qualquer valor numérico. Ex: 167,5 cm.' },
-  { chave:'peso',    nome:'Peso',             unidade:'kg',   tipo:'continua', desc:'Variável CONTÍNUA: pode assumir valores decimais. Ex: 68,3 kg.' },
-  { chave:'temp',    nome:'Temperatura',      unidade:'°C',   tipo:'continua', desc:'Variável CONTÍNUA: temperatura corporal com casas decimais. Ex: 36,7 °C.' },
-  { chave:'filhos',  nome:'N° de filhos',     unidade:'',     tipo:'discreta', desc:'Variável DISCRETA: número inteiro. Não existe 1,5 filho.' },
-  { chave:'cp',      nome:'Compr. padrão',    unidade:'cm',   tipo:'continua', desc:'Variável CONTÍNUA: comprimento padrão de um peixe em cm.' },
+let varsPre = [
+  {chave:'idade',   nome:'Idade',        unidade:'anos', tipo:'discreta', desc:'Variável DISCRETA: valores inteiros. Ex: 18, 19, 20 anos.'},
+  {chave:'altura',  nome:'Altura',       unidade:'cm',   tipo:'continua', desc:'Variável CONTÍNUA: pode assumir qualquer valor. Ex: 167,5 cm.'},
+  {chave:'peso',    nome:'Peso',         unidade:'kg',   tipo:'continua', desc:'Variável CONTÍNUA: valores decimais. Ex: 68,3 kg.'},
+  {chave:'temp',    nome:'Temperatura',  unidade:'°C',   tipo:'continua', desc:'Variável CONTÍNUA: temperatura corporal. Ex: 36,7 °C.'},
+  {chave:'filhos',  nome:'N° de filhos', unidade:'',     tipo:'discreta', desc:'Variável DISCRETA: número inteiro. Não existe 1,5 filho.'},
+  {chave:'cp',      nome:'Compr. padrão',unidade:'cm',   tipo:'continua', desc:'Variável CONTÍNUA: comprimento padrão de peixe em cm.'},
 ];
 let varsCustom = [];
+function todasVars(){ return [...varsPre, ...varsCustom]; }
 
 // ── ENTRADA ───────────────────────────────────────────────────
-function entrarProfessor() {
+function entrarProfessor(){
   const cod  = document.getElementById('e-cod').value.toUpperCase().trim();
   const sen  = document.getElementById('e-senha').value.trim();
   const sen2 = document.getElementById('e-senha2').value.trim();
-  if (cod.length < 2)  { notif('Digite um código para a sala!','r'); return; }
-  if (sen.length < 3)  { notif('Senha precisa ter ao menos 3 caracteres!','r'); return; }
-  if (sen !== sen2)    { notif('As senhas não coincidem!','r'); return; }
-  sala = cod; senhaSala = sen;
-  if (modoFB) {
-    db.ref(`ev_salas/${sala}/meta`).once('value', s => {
-      const m = s.val();
-      if (m && m.senha && m.senha !== sen) { notif('Sala já existe com outra senha!','r'); return; }
-      db.ref(`ev_salas/${sala}/meta`).set({ senha:sen, criada: new Date().toISOString() });
+  if(cod.length<2){notif('Digite um código para a sala!','r');return;}
+  if(sen.length<3){notif('Senha precisa ter ao menos 3 caracteres!','r');return;}
+  if(sen!==sen2){notif('As senhas não coincidem!','r');return;}
+  sala=cod; senhaSala=sen;
+  if(modoFB){
+    db.ref(`ev_salas/${sala}/meta`).once('value',s=>{
+      const m=s.val();
+      if(m&&m.senha&&m.senha!==sen){notif('Sala já existe com outra senha!','r');return;}
+      db.ref(`ev_salas/${sala}/meta`).set({senha:sen,criada:new Date().toISOString()});
       abrirProf();
     });
   } else { abrirProf(); }
 }
 
-function abrirProf() {
-  document.getElementById('cod-exibido').textContent = sala;
-  document.getElementById('tela-entrada').style.display = 'none';
-  document.getElementById('painel-professor').style.display = 'block';
-  varAtual = varsPredefinidas[0];
+function abrirProf(){
+  document.getElementById('cod-exibido').textContent=sala;
+  document.getElementById('tela-entrada').style.display='none';
+  document.getElementById('painel-professor').style.display='block';
+  varAtual=varsPre[0];
   renderizarVars();
-  iniciarListener();
-  if (modoFB) publicarConfig();
+  iniciarListeners();
+  if(modoFB) publicarConfigNormal();
+  recalcBinomial();
+  recalcPoisson();
+  recalcQui();
+  renderCatsQui();
 }
 
-function entrarAluno() {
-  sala = document.getElementById('a-cod').value.toUpperCase().trim();
-  nomeAluno = document.getElementById('a-nome').value.trim();
-  if (sala.length < 2)    { notif('Digite o código da sala!','r'); return; }
-  if (!nomeAluno)         { notif('Digite seu nome!','r'); return; }
-  if (modoFB) {
-    db.ref(`ev_salas/${sala}/meta`).once('value', s => {
-      if (!s.val()) { notif('Sala não encontrada!','r'); return; }
+function entrarAluno(){
+  sala=document.getElementById('a-cod').value.toUpperCase().trim();
+  nomeAluno=document.getElementById('a-nome').value.trim();
+  if(sala.length<2){notif('Digite o código da sala!','r');return;}
+  if(!nomeAluno){notif('Digite seu nome!','r');return;}
+  if(modoFB){
+    db.ref(`ev_salas/${sala}/meta`).once('value',s=>{
+      if(!s.val()){notif('Sala não encontrada!','r');return;}
       abrirAluno();
     });
   } else { abrirAluno(); }
 }
 
-function abrirAluno() {
-  document.getElementById('tela-entrada').style.display = 'none';
-  document.getElementById('painel-aluno').style.display = 'block';
-  document.getElementById('al-titulo').textContent = `Olá, ${nomeAluno}!`;
-  if (modoFB) escutarConfig();
+function abrirAluno(){
+  document.getElementById('tela-entrada').style.display='none';
+  document.getElementById('painel-aluno').style.display='block';
+  document.getElementById('al-titulo').textContent=`Olá, ${nomeAluno}!`;
+  if(modoFB) escutarConfigAluno();
 }
 
-// ── VARIÁVEIS ─────────────────────────────────────────────────
-function todasVars() { return [...varsPredefinidas, ...varsCustom]; }
+// ── FIREBASE: LISTENERS ───────────────────────────────────────
+function iniciarListeners(){
+  if(!modoFB) return;
+  ['normal','binomial','poisson','qui'].forEach(d=>{
+    const ref = db.ref(`ev_salas/${sala}/dados_${d}`);
+    listeners[d] = ref;
+    ref.on('value', snap=>{
+      const obj = snap.val()||{};
+      if(d==='normal')   dadosNormal=obj;
+      if(d==='binomial') dadosBinomial=obj;
+      if(d==='poisson')  dadosPoisson=obj;
+      if(d==='qui')      dadosQui=obj;
+      if(d===distAtual) atualizarDistAtual();
+      atualizarContador();
+    });
+  });
+  // Escutar params binomial/poisson/qui do Firebase
+  db.ref(`ev_salas/${sala}/params`).on('value', snap=>{
+    const p=snap.val();
+    if(!p) return;
+    if(p.bn){ bnN=p.bn.n||10; bnP=p.bn.p||0.5;
+      document.getElementById('bn-n').value=bnN;
+      document.getElementById('bn-p').value=bnP;
+      if(p.bn.desc) document.getElementById('bn-desc').value=p.bn.desc;
+      recalcBinomial(false);
+    }
+    if(p.po){ poLambda=p.po.lambda||3;
+      document.getElementById('po-lambda').value=poLambda;
+      if(p.po.desc) document.getElementById('po-desc').value=p.po.desc;
+      recalcPoisson(false);
+    }
+    if(p.qi){ qiGL=p.qi.gl||3; qiAlpha=p.qi.alpha||0.05; qiCategorias=p.qi.cats||[];
+      document.getElementById('qi-gl').value=qiGL;
+      document.getElementById('qi-alpha').value=qiAlpha;
+      renderCatsQui(); recalcQui(false);
+    }
+  });
+}
 
-function renderizarVars() {
-  const el = document.getElementById('vars-lista');
-  el.innerHTML = '';
-  todasVars().forEach(v => {
-    const d = document.createElement('div');
-    d.className = 'var-chip' + (varAtual && varAtual.chave === v.chave ? ' sel' : '');
-    d.textContent = v.nome + (v.unidade ? ` (${v.unidade})` : '');
-    d.onclick = () => { varAtual = v; renderizarVars(); if(modoFB) publicarConfig(); atualizarGraficos(getDados()); };
+function atualizarContador(){
+  const total = Object.values(dadosNormal).length +
+                Object.values(dadosBinomial).length +
+                Object.values(dadosPoisson).length +
+                Object.values(dadosQui).length;
+  document.getElementById('cnt-badge').textContent=`${total} resposta${total!==1?'s':''}`;
+}
+
+// ── CONFIG ALUNO ──────────────────────────────────────────────
+function escutarConfigAluno(){
+  if(!modoFB) return;
+  db.ref(`ev_salas/${sala}/config_aluno`).on('value', snap=>{
+    const c=snap.val();
+    if(!c) return;
+    varAtual=c;
+    document.getElementById('iv-tipo').textContent=c.tipo==='discreta'?'Variável Discreta':'Variável Contínua';
+    document.getElementById('iv-nome').textContent=c.nome||'—';
+    document.getElementById('iv-desc').textContent=c.desc||'';
+    document.getElementById('al-hint').textContent=c.unidade?`Digite em ${c.unidade}`:'Digite o valor';
+    document.getElementById('val-aluno').step=c.tipo==='continua'?'0.1':'1';
+  });
+  db.ref(`ev_salas/${sala}/params`).on('value', snap=>{
+    const p=snap.val();
+    if(!p) return;
+    if(p.dist) distAtual=p.dist;
+    if(distAtual==='binomial'&&p.bn){
+      document.getElementById('iv-tipo').textContent='Variável Discreta';
+      document.getElementById('iv-nome').textContent='Distribuição Binomial';
+      document.getElementById('iv-desc').textContent=p.bn.desc||`Informe o número de sucessos (0 a ${p.bn.n||10})`;
+      document.getElementById('al-hint').textContent=`Valor entre 0 e ${p.bn.n||10}`;
+      document.getElementById('val-aluno').step='1';
+      document.getElementById('val-aluno').min='0';
+      document.getElementById('val-aluno').max=p.bn.n||10;
+    }
+    if(distAtual==='poisson'&&p.po){
+      document.getElementById('iv-tipo').textContent='Variável Discreta';
+      document.getElementById('iv-nome').textContent='Distribuição de Poisson';
+      document.getElementById('iv-desc').textContent=p.po.desc||'Informe a contagem de eventos observados.';
+      document.getElementById('al-hint').textContent='Número inteiro de eventos';
+      document.getElementById('val-aluno').step='1';
+    }
+    if(distAtual==='qui'&&p.qi){
+      document.getElementById('iv-tipo').textContent='Frequência observada';
+      document.getElementById('iv-nome').textContent='Qui-quadrado';
+      document.getElementById('iv-desc').textContent='Informe a frequência observada para a categoria indicada pelo professor.';
+      document.getElementById('al-hint').textContent='Frequência observada (número inteiro)';
+      document.getElementById('val-aluno').step='1';
+    }
+  });
+}
+
+// ── NORMAL: VARS ─────────────────────────────────────────────
+function renderizarVars(){
+  const el=document.getElementById('vars-lista');
+  el.innerHTML='';
+  todasVars().forEach(v=>{
+    const d=document.createElement('div');
+    d.className='var-chip'+(varAtual&&varAtual.chave===v.chave?' sel':'');
+    d.textContent=v.nome+(v.unidade?` (${v.unidade})`:'');
+    d.onclick=()=>{varAtual=v;renderizarVars();if(modoFB)publicarConfigNormal();atualizarDistAtual();};
     el.appendChild(d);
   });
 }
 
-function abrirModal() { document.getElementById('modal-var').classList.remove('hidden'); }
-function fecharModal() { document.getElementById('modal-var').classList.add('hidden'); }
-
-function confirmarNovaVar() {
-  const nome = document.getElementById('mv-nome').value.trim();
-  const unid = document.getElementById('mv-unidade').value.trim();
-  const tipo = document.getElementById('mv-tipo').value;
-  const desc = document.getElementById('mv-desc').value.trim() ||
-    `Variável ${tipo === 'discreta' ? 'DISCRETA: valores inteiros contáveis' : 'CONTÍNUA: pode assumir qualquer valor numérico'}.`;
-  if (!nome) { notif('Digite o nome da variável!','r'); return; }
-  const chave = nome.toLowerCase().replace(/\s+/g,'_') + '_' + Date.now();
-  const nova = { chave, nome, unidade:unid, tipo, desc };
-  varsCustom.push(nova);
-  varAtual = nova;
-  renderizarVars();
-  if (modoFB) publicarConfig();
-  fecharModal();
-  document.getElementById('mv-nome').value='';
-  document.getElementById('mv-unidade').value='';
-  document.getElementById('mv-desc').value='';
+function publicarConfigNormal(){
+  if(!modoFB||!varAtual) return;
+  db.ref(`ev_salas/${sala}/config_aluno`).set({...varAtual});
+  db.ref(`ev_salas/${sala}/params/dist`).set('normal');
 }
 
-// ── FIREBASE: CONFIG ──────────────────────────────────────────
-function publicarConfig() {
-  if (!modoFB || !varAtual) return;
-  db.ref(`ev_salas/${sala}/config`).set({ ...varAtual });
+function abrirModal(){ document.getElementById('modal-var').classList.remove('hidden'); }
+function fecharModal(){ document.getElementById('modal-var').classList.add('hidden'); }
+function confirmarNovaVar(){
+  const nome=document.getElementById('mv-nome').value.trim();
+  const unid=document.getElementById('mv-unidade').value.trim();
+  const tipo=document.getElementById('mv-tipo').value;
+  const desc=document.getElementById('mv-desc').value.trim()||
+    `Variável ${tipo==='discreta'?'DISCRETA: valores inteiros contáveis':'CONTÍNUA: pode assumir qualquer valor numérico'}.`;
+  if(!nome){notif('Digite o nome da variável!','r');return;}
+  const chave=nome.toLowerCase().replace(/\s+/g,'_')+'_'+Date.now();
+  const nova={chave,nome,unidade:unid,tipo,desc};
+  varsCustom.push(nova); varAtual=nova;
+  renderizarVars(); if(modoFB) publicarConfigNormal(); fecharModal();
+  ['mv-nome','mv-unidade','mv-desc'].forEach(id=>document.getElementById(id).value='');
 }
 
-function escutarConfig() {
-  if (!modoFB) return;
-  db.ref(`ev_salas/${sala}/config`).on('value', s => {
-    if (s.val()) { varAtual = s.val(); atualizarInfoAluno(); }
+// ── BINOMIAL ──────────────────────────────────────────────────
+function recalcBinomial(publish=true){
+  bnN=parseInt(document.getElementById('bn-n').value)||10;
+  bnP=parseFloat(document.getElementById('bn-p').value)||0.5;
+  const mu=(bnN*bnP).toFixed(2);
+  const sig=Math.sqrt(bnN*bnP*(1-bnP)).toFixed(2);
+  document.getElementById('bn-params-txt').textContent=`n=${bnN}, p=${bnP.toFixed(2)}`;
+  document.getElementById('bn-mu').textContent=mu;
+  document.getElementById('bn-sigma').textContent=sig;
+  if(publish) publicarConfigBinomial();
+  if(distAtual==='binomial') desenharBinomial();
+}
+
+function publicarConfigBinomial(){
+  if(!modoFB) return;
+  const desc=document.getElementById('bn-desc').value;
+  db.ref(`ev_salas/${sala}/params`).update({
+    dist:'binomial',
+    bn:{n:bnN, p:bnP, desc}
+  });
+  db.ref(`ev_salas/${sala}/config_aluno`).set({
+    nome:'Distribuição Binomial', tipo:'discreta',
+    desc, unidade:'', chave:'binomial'
   });
 }
 
-function atualizarInfoAluno() {
-  if (!varAtual) return;
-  document.getElementById('iv-tipo').textContent = varAtual.tipo === 'discreta' ? 'Variável Discreta' : 'Variável Contínua';
-  document.getElementById('iv-nome').textContent = varAtual.nome;
-  document.getElementById('iv-desc').textContent = varAtual.desc;
-  document.getElementById('al-hint').textContent = varAtual.unidade ? `Digite em ${varAtual.unidade}` : 'Digite o valor';
-  document.getElementById('val-aluno').step = varAtual.tipo === 'continua' ? '0.1' : '1';
+function binomCoef(n,k){
+  if(k<0||k>n) return 0;
+  let r=1;
+  for(let i=0;i<k;i++) r=r*(n-i)/(i+1);
+  return r;
+}
+function binomPMF(k,n,p){ return binomCoef(n,k)*Math.pow(p,k)*Math.pow(1-p,n-k); }
+
+function desenharBinomial(){
+  const dados=Object.values(dadosBinomial).map(d=>d.valor).filter(v=>v!==undefined);
+  document.getElementById('bn-n-resp').textContent=dados.length;
+
+  const labels=Array.from({length:bnN+1},(_,k)=>k);
+  const teorico=labels.map(k=>binomPMF(k,bnN,bnP));
+
+  // freq relativa real
+  const freqReal=Array(bnN+1).fill(0);
+  dados.forEach(v=>{ if(v>=0&&v<=bnN) freqReal[v]++; });
+  const freqRelReal=freqReal.map(f=>dados.length>0?f/dados.length:0);
+
+  // Gráfico comparação
+  const ctx1=document.getElementById('ch-binomial').getContext('2d');
+  if(charts['ch-binomial']) charts['ch-binomial'].destroy();
+  charts['ch-binomial']=new Chart(ctx1,{
+    data:{labels,datasets:[
+      {type:'bar',label:'Coleta real (freq. relativa)',data:freqRelReal,
+        backgroundColor:'rgba(16,185,129,.55)',borderColor:'rgba(16,185,129,.8)',borderWidth:1,borderRadius:3},
+      {type:'line',label:`Teórico B(${bnN},${bnP})`,data:teorico,
+        borderColor:'#065f46',borderWidth:2.5,fill:false,pointRadius:3,tension:0}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{font:{size:10},boxWidth:12}}},
+      scales:{x:{title:{display:true,text:'Número de sucessos (k)',font:{size:10}}},
+              y:{title:{display:true,text:'Probabilidade / Freq. relativa',font:{size:10}},beginAtZero:true}}}
+  });
+
+  // Gráfico teórico puro
+  const ctx2=document.getElementById('cg-binomial').getContext('2d');
+  if(charts['cg-binomial']) charts['cg-binomial'].destroy();
+  charts['cg-binomial']=new Chart(ctx2,{
+    type:'bar',data:{labels,datasets:[
+      {label:`P(X=k) — B(${bnN},${bnP.toFixed(2)})`,data:teorico,
+        backgroundColor:labels.map(k=>{
+          const mu=bnN*bnP, sig=Math.sqrt(bnN*bnP*(1-bnP));
+          if(Math.abs(k-mu)<=sig) return 'rgba(245,158,11,.7)';
+          if(Math.abs(k-mu)<=2*sig) return 'rgba(16,185,129,.6)';
+          return 'rgba(59,130,246,.5)';
+        }),
+        borderColor:'rgba(0,0,0,.1)',borderWidth:1,borderRadius:3}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{font:{size:10},boxWidth:12}},
+        tooltip:{callbacks:{label:c=>`P(X=${c.label}) = ${c.raw.toFixed(4)}`}}},
+      scales:{x:{title:{display:true,text:'k',font:{size:10}}},
+              y:{title:{display:true,text:'P(X=k)',font:{size:10}},beginAtZero:true}}}
+  });
+
+  // Tabela
+  const tbody=document.getElementById('tbody-binomial');
+  if(tbody){ tbody.innerHTML='';
+    Object.values(dadosBinomial).reverse().forEach((d,i,arr)=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td>${arr.length-i}</td><td>${d.nome||'—'}</td><td><strong>${d.valor}</strong></td><td>${d.hora||'—'}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
 }
 
-// ── FIREBASE: DADOS ───────────────────────────────────────────
-function iniciarListener() {
-  if (!modoFB) return;
-  listenerDados = db.ref(`ev_salas/${sala}/dados`);
-  listenerDados.on('value', snap => {
-    dadosObj = snap.val() || {};
-    const lista = Object.values(dadosObj);
-    const vals = lista.map(d => d.valor).filter(v => v !== undefined);
-    atualizarGraficos(vals);
-    atualizarTabela(lista);
-    const n = lista.length;
-    document.getElementById('cnt-badge').textContent = `${n} resposta${n!==1?'s':''}`;
+// ── POISSON ───────────────────────────────────────────────────
+function recalcPoisson(publish=true){
+  poLambda=parseFloat(document.getElementById('po-lambda').value)||3;
+  document.getElementById('po-lambda-txt').textContent=poLambda.toFixed(1);
+  document.getElementById('po-mu').textContent=poLambda.toFixed(2);
+  if(publish) publicarConfigPoisson();
+  if(distAtual==='poisson') desenharPoisson();
+}
+
+function publicarConfigPoisson(){
+  if(!modoFB) return;
+  const desc=document.getElementById('po-desc').value;
+  db.ref(`ev_salas/${sala}/params`).update({dist:'poisson',po:{lambda:poLambda,desc}});
+  db.ref(`ev_salas/${sala}/config_aluno`).set({
+    nome:'Distribuição de Poisson',tipo:'discreta',desc,unidade:'',chave:'poisson'
   });
 }
 
-function getDados() {
-  return Object.values(dadosObj).map(d => d.valor).filter(v => v !== undefined);
+function poissonPMF(k,lam){
+  let lnP=-lam;
+  for(let i=1;i<=k;i++) lnP+=Math.log(lam)-Math.log(i);
+  return Math.exp(lnP);
+}
+
+function desenharPoisson(){
+  const dados=Object.values(dadosPoisson).map(d=>d.valor).filter(v=>v!==undefined);
+  document.getElementById('po-n-resp').textContent=dados.length;
+  const kMax=Math.max(15, Math.ceil(poLambda*3)+1, dados.length>0?Math.max(...dados)+2:10);
+  const labels=Array.from({length:kMax},(_,k)=>k);
+  const teorico=labels.map(k=>poissonPMF(k,poLambda));
+  const freqReal=Array(kMax).fill(0);
+  dados.forEach(v=>{ if(v>=0&&v<kMax) freqReal[v]++; });
+  const freqRel=freqReal.map(f=>dados.length>0?f/dados.length:0);
+
+  const ctx1=document.getElementById('ch-poisson').getContext('2d');
+  if(charts['ch-poisson']) charts['ch-poisson'].destroy();
+  charts['ch-poisson']=new Chart(ctx1,{
+    data:{labels,datasets:[
+      {type:'bar',label:'Coleta real (freq. relativa)',data:freqRel,
+        backgroundColor:'rgba(245,158,11,.55)',borderColor:'rgba(245,158,11,.8)',borderWidth:1,borderRadius:3},
+      {type:'line',label:`Teórico Poisson(λ=${poLambda})`,data:teorico,
+        borderColor:'#92400e',borderWidth:2.5,fill:false,pointRadius:3,tension:0}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{font:{size:10},boxWidth:12}}},
+      scales:{x:{title:{display:true,text:'Número de eventos (k)',font:{size:10}}},
+              y:{title:{display:true,text:'Probabilidade / Freq. relativa',font:{size:10}},beginAtZero:true}}}
+  });
+
+  const ctx2=document.getElementById('cg-poisson').getContext('2d');
+  if(charts['cg-poisson']) charts['cg-poisson'].destroy();
+  charts['cg-poisson']=new Chart(ctx2,{
+    type:'bar',data:{labels,datasets:[
+      {label:`P(X=k) — Poisson(λ=${poLambda.toFixed(1)})`,data:teorico,
+        backgroundColor:'rgba(245,158,11,.65)',borderColor:'rgba(180,100,0,.4)',borderWidth:1,borderRadius:3}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{font:{size:10},boxWidth:12}},
+        tooltip:{callbacks:{label:c=>`P(X=${c.label}) = ${c.raw.toFixed(4)}`}}},
+      scales:{x:{title:{display:true,text:'k',font:{size:10}}},
+              y:{title:{display:true,text:'P(X=k)',font:{size:10}},beginAtZero:true}}}
+  });
+
+  const tbody=document.getElementById('tbody-poisson');
+  if(tbody){ tbody.innerHTML='';
+    Object.values(dadosPoisson).reverse().forEach((d,i,arr)=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td>${arr.length-i}</td><td>${d.nome||'—'}</td><td><strong>${d.valor}</strong></td><td>${d.hora||'—'}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
+}
+
+// ── QUI-QUADRADO ──────────────────────────────────────────────
+// Tabela chi² crítico simplificada
+const QUI_CRITICO={
+  '0.10':[2.706,4.605,6.251,7.779,9.236,10.645,12.017,13.362,14.684,15.987],
+  '0.05':[3.841,5.991,7.815,9.488,11.070,12.592,14.067,15.507,16.919,18.307],
+  '0.01':[6.635,9.210,11.345,13.277,15.086,16.812,18.475,20.090,21.666,23.209]
+};
+
+function recalcQui(publish=true){
+  qiGL=parseInt(document.getElementById('qi-gl').value)||1;
+  qiAlpha=document.getElementById('qi-alpha').value||'0.05';
+  document.getElementById('qi-gl-txt').textContent=qiGL;
+  const tabela=QUI_CRITICO[String(qiAlpha)]||QUI_CRITICO['0.05'];
+  const critico=tabela[Math.min(qiGL,10)-1]||'—';
+  document.getElementById('qi-critico').textContent=typeof critico==='number'?critico.toFixed(3):critico;
+  if(publish) publicarConfigQui();
+  if(distAtual==='qui') desenharQui();
+}
+
+function publicarConfigQui(){
+  if(!modoFB) return;
+  db.ref(`ev_salas/${sala}/params`).update({
+    dist:'qui', qi:{gl:qiGL,alpha:parseFloat(qiAlpha),cats:qiCategorias}
+  });
+}
+
+function adicionarCategoria(){
+  const nome=document.getElementById('qi-nova-cat').value.trim();
+  const esp=parseFloat(document.getElementById('qi-nova-esp').value)||0;
+  if(!nome){notif('Digite o nome da categoria!','r');return;}
+  qiCategorias.push({nome,esperado:esp,observado:0});
+  document.getElementById('qi-nova-cat').value='';
+  document.getElementById('qi-nova-esp').value='';
+  renderCatsQui(); publicarConfigQui();
+}
+
+function renderCatsQui(){
+  const wrap=document.getElementById('qi-cats-wrap');
+  if(!wrap) return;
+  wrap.innerHTML='';
+  qiCategorias.forEach((cat,i)=>{
+    const d=document.createElement('div');
+    d.style.cssText='display:flex;flex-direction:column;gap:4px;background:var(--bg);border:2px solid var(--borda);border-radius:10px;padding:10px 12px;min-width:120px;';
+    d.innerHTML=`<span style="font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;">${cat.nome}</span>
+      <span style="font-size:.75rem;color:var(--suave);">Esp: ${cat.esperado}</span>
+      <button onclick="removerCat(${i})" style="font-size:.68rem;background:none;border:none;color:var(--vermelho);cursor:pointer;font-weight:700;">remover</button>`;
+    wrap.appendChild(d);
+  });
+}
+
+function removerCat(i){ qiCategorias.splice(i,1); renderCatsQui(); publicarConfigQui(); desenharQui(); }
+
+function gammaLn(z){
+  // Stirling approx para chi2 CDF
+  const c=[76.18009172947146,-86.50532032941677,24.01409824083091,-1.231739572450155,
+            0.1208650973866179e-2,-0.5395239384953e-5];
+  let y=z, x=z, tmp=x+5.5;
+  tmp-=(x+0.5)*Math.log(tmp);
+  let ser=1.000000000190015;
+  for(let j=0;j<6;j++) ser+=c[j]/++y;
+  return -tmp+Math.log(2.5066282746310005*ser/x);
+}
+
+function chiPDF(x,k){
+  if(x<=0) return 0;
+  const k2=k/2;
+  return Math.exp((k2-1)*Math.log(x)-x/2-k2*Math.log(2)-gammaLn(k2));
+}
+
+function desenharQui(){
+  // Calcular chi² com dados coletados (somando freq observadas por categoria do Firebase)
+  const dados=Object.values(dadosQui);
+  const obsMap={};
+  dados.forEach(d=>{ if(d.categoria) obsMap[d.categoria]=(obsMap[d.categoria]||0)+1; });
+
+  let chi2=0;
+  qiCategorias.forEach(cat=>{
+    const O=obsMap[cat.nome]||cat.observado||0;
+    const E=cat.esperado||1;
+    chi2+=(O-E)**2/E;
+  });
+  document.getElementById('qi-calculado').textContent=dados.length>0?chi2.toFixed(3):'—';
+
+  const tabela=QUI_CRITICO[String(qiAlpha)]||QUI_CRITICO['0.05'];
+  const critico=tabela[Math.min(qiGL,10)-1]||999;
+  const decisao=dados.length>0?(chi2>critico?'⚠️ Rejeita H₀':'✅ Não rejeita H₀'):'aguardando dados';
+  const dec=document.getElementById('qi-decisao');
+  dec.textContent=decisao;
+  dec.style.color=dados.length>0?(chi2>critico?'var(--vermelho)':'var(--verde)'):'var(--suave)';
+
+  // Gráfico barras obs vs esp
+  const ctx1=document.getElementById('ch-qui').getContext('2d');
+  if(charts['ch-qui']) charts['ch-qui'].destroy();
+  if(qiCategorias.length>0){
+    charts['ch-qui']=new Chart(ctx1,{
+      type:'bar',
+      data:{
+        labels:qiCategorias.map(c=>c.nome),
+        datasets:[
+          {label:'Observado',data:qiCategorias.map(c=>obsMap[c.nome]||c.observado||0),
+            backgroundColor:'rgba(139,92,246,.6)',borderColor:'rgba(139,92,246,.9)',borderWidth:1,borderRadius:3},
+          {label:'Esperado',data:qiCategorias.map(c=>c.esperado||0),
+            backgroundColor:'rgba(100,116,139,.3)',borderColor:'rgba(100,116,139,.6)',borderWidth:1,borderRadius:3}
+        ]
+      },
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{labels:{font:{size:10},boxWidth:12}}},
+        scales:{x:{title:{display:true,text:'Categoria',font:{size:10}}},
+                y:{title:{display:true,text:'Frequência',font:{size:10}},beginAtZero:true}}}
+    });
+  }
+
+  // Gráfico curva chi²
+  const ctx2=document.getElementById('cg-qui').getContext('2d');
+  if(charts['cg-qui']) charts['cg-qui'].destroy();
+  const xMax=Math.max(critico*2, chi2*1.5, 20);
+  const N=120;
+  const xs=Array.from({length:N},(_,i)=>xMax*i/(N-1));
+  const ys=xs.map(x=>chiPDF(x,qiGL));
+  const labels2=xs.map(x=>x.toFixed(2));
+  const fillCrit=xs.map((x,i)=>x>=critico?ys[i]:null);
+  const fillBody=xs.map((x,i)=>x<critico?ys[i]:null);
+  charts['cg-qui']=new Chart(ctx2,{
+    type:'line',
+    data:{labels:labels2,datasets:[
+      {label:'Área p-valor (região crítica)',data:fillCrit,fill:true,
+        backgroundColor:'rgba(239,68,68,.25)',borderColor:'transparent',pointRadius:0,tension:.4,spanGaps:false},
+      {label:`χ²(ν=${qiGL})`,data:fillBody,fill:true,
+        backgroundColor:'rgba(139,92,246,.15)',borderColor:'transparent',pointRadius:0,tension:.4,spanGaps:false},
+      {label:'Curva χ²',data:ys,fill:false,borderColor:'var(--lilas)',borderWidth:2.5,pointRadius:0,tension:.4}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{font:{size:10},boxWidth:12}},
+        annotation:{annotations:[{type:'line',xMin:critico.toFixed(2),xMax:critico.toFixed(2),borderColor:'red',borderWidth:2}]}},
+      scales:{x:{ticks:{maxTicksLimit:8,font:{size:10}},title:{display:true,text:'χ²',font:{size:10}}},
+              y:{title:{display:true,text:'Densidade',font:{size:10}},beginAtZero:true}}}
+  });
+}
+
+// ── NORMAL: GRÁFICOS ──────────────────────────────────────────
+function npdf(x,mu,sig){ return (1/(sig*Math.sqrt(2*Math.PI)))*Math.exp(-0.5*((x-mu)/sig)**2); }
+
+function statsNormal(d){
+  if(!d||!d.length) return null;
+  const n=d.length, media=d.reduce((a,b)=>a+b,0)/n;
+  const dp=Math.sqrt(d.reduce((a,b)=>a+(b-media)**2,0)/(n>1?n-1:1));
+  const s=[...d].sort((a,b)=>a-b);
+  const mediana=n%2===0?(s[n/2-1]+s[n/2])/2:s[Math.floor(n/2)];
+  return{n,media,dp,mediana,min:s[0],max:s[n-1],
+    p1:(d.filter(v=>Math.abs(v-media)<=dp).length/n*100).toFixed(1),
+    p2:(d.filter(v=>Math.abs(v-media)<=2*dp).length/n*100).toFixed(1),
+    p3:(d.filter(v=>Math.abs(v-media)<=3*dp).length/n*100).toFixed(1)};
+}
+
+function atualizarNormal(){
+  const vals=Object.values(dadosNormal).map(d=>d.valor).filter(v=>v!==undefined);
+  const st=statsNormal(vals);
+  document.getElementById('r-n').textContent=vals.length;
+  if(st){
+    document.getElementById('r-media').textContent=st.media.toFixed(1);
+    document.getElementById('r-dp').textContent=st.dp.toFixed(2);
+    document.getElementById('r-min').textContent=st.min;
+    document.getElementById('r-max').textContent=st.max;
+    document.getElementById('r-med').textContent=st.mediana.toFixed(1);
+    document.getElementById('s1').textContent=st.p1+'%';
+    document.getElementById('s2').textContent=st.p2+'%';
+    document.getElementById('s3').textContent=st.p3+'%';
+  } else {
+    ['r-media','r-dp','r-min','r-max','r-med'].forEach(id=>document.getElementById(id).textContent='—');
+    ['s1','s2','s3'].forEach(id=>document.getElementById(id).textContent='0%');
+  }
+
+  // Histograma
+  const ctx1=document.getElementById('ch-normal').getContext('2d');
+  if(charts['ch-normal']) charts['ch-normal'].destroy();
+  if(vals.length>=3&&st){
+    const bins=Math.max(5,Math.min(12,Math.ceil(Math.sqrt(vals.length))));
+    const larg=(st.max-st.min)/bins||1;
+    const labels=[],dens=[],yN=[];
+    for(let i=0;i<bins;i++){
+      const lo=st.min+i*larg,hi=lo+larg,mid=(lo+hi)/2;
+      labels.push(mid.toFixed(1));
+      dens.push(vals.filter(v=>v>=lo&&(v<hi||i===bins-1)).length/(vals.length*larg));
+      yN.push(npdf(mid,st.media,st.dp));
+    }
+    charts['ch-normal']=new Chart(ctx1,{
+      data:{labels,datasets:[
+        {type:'bar',label:'Dados da turma',data:dens,backgroundColor:'rgba(59,130,246,.5)',borderColor:'rgba(59,130,246,.8)',borderWidth:1,borderRadius:3},
+        {type:'line',label:'Curva Normal',data:yN,borderColor:'#f59e0b',borderWidth:2.5,fill:false,pointRadius:0,tension:.4}
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{labels:{font:{size:10},boxWidth:12}}},
+        scales:{x:{title:{display:true,text:varAtual?`${varAtual.nome}${varAtual.unidade?' ('+varAtual.unidade+')':''}`:''  ,font:{size:10}}},
+                y:{title:{display:true,text:'Densidade',font:{size:10}},beginAtZero:true}}}
+    });
+  } else {
+    charts['ch-normal']=new Chart(ctx1,{type:'bar',data:{labels:[],datasets:[]},options:{responsive:true,maintainAspectRatio:false}});
+  }
+
+  // Curva com faixas
+  const ctx2=document.getElementById('cg-normal').getContext('2d');
+  if(charts['cg-normal']) charts['cg-normal'].destroy();
+  if(vals.length>=3&&st){
+    const mu=st.media,sig=st.dp;
+    const xMin=mu-4*sig,xMax=mu+4*sig,N2=120;
+    const xs=Array.from({length:N2},(_,i)=>xMin+(xMax-xMin)*i/(N2-1));
+    const ys=xs.map(x=>npdf(x,mu,sig));
+    const lb=xs.map(x=>x.toFixed(2));
+    const fill=(lo,hi)=>xs.map(x=>(x>=lo&&x<=hi)?npdf(x,mu,sig):null);
+    charts['cg-normal']=new Chart(ctx2,{
+      type:'line',data:{labels:lb,datasets:[
+        {label:'±3σ (99,7%)',data:fill(mu-3*sig,mu+3*sig),fill:true,backgroundColor:'rgba(147,197,253,.3)',borderColor:'transparent',pointRadius:0,tension:.4,spanGaps:false},
+        {label:'±2σ (95%)',  data:fill(mu-2*sig,mu+2*sig),fill:true,backgroundColor:'rgba(110,231,183,.4)',borderColor:'transparent',pointRadius:0,tension:.4,spanGaps:false},
+        {label:'±1σ (68%)',  data:fill(mu-sig,mu+sig),    fill:true,backgroundColor:'rgba(252,176,69,.55)', borderColor:'transparent',pointRadius:0,tension:.4,spanGaps:false},
+        {label:'Curva Normal',data:ys,fill:false,borderColor:'var(--azul)',borderWidth:2.5,pointRadius:0,tension:.4}
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{labels:{font:{size:10},boxWidth:12}}},
+        scales:{x:{ticks:{maxTicksLimit:7,font:{size:10}},title:{display:true,text:varAtual?varAtual.nome:'',font:{size:10}}},
+                y:{title:{display:true,text:'Densidade',font:{size:10}},beginAtZero:true}}}
+    });
+  } else {
+    charts['cg-normal']=new Chart(ctx2,{type:'line',data:{labels:[],datasets:[]},options:{responsive:true,maintainAspectRatio:false}});
+  }
+
+  // Tabela
+  const tbody=document.getElementById('tbody-normal');
+  if(tbody){ tbody.innerHTML='';
+    Object.values(dadosNormal).reverse().forEach((d,i,arr)=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td>${arr.length-i}</td><td>${d.nome||'—'}</td><td>${d.variavel||'—'}</td><td><strong>${d.valor}</strong> ${d.unidade||''}</td><td>${d.hora||'—'}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
+}
+
+// ── DESPACHAR ATUALIZAÇÃO ─────────────────────────────────────
+function atualizarDistAtual(){
+  if(distAtual==='normal')    atualizarNormal();
+  if(distAtual==='binomial')  desenharBinomial();
+  if(distAtual==='poisson')   desenharPoisson();
+  if(distAtual==='qui')       desenharQui();
+}
+
+// ── MUDAR ABA DISTRIBUIÇÃO ────────────────────────────────────
+function mudarDist(d, btn){
+  distAtual=d;
+  document.querySelectorAll('.dist-aba').forEach(b=>b.classList.remove('ativo'));
+  btn.classList.add('ativo');
+  ['normal','binomial','poisson','qui'].forEach(id=>{
+    document.getElementById('dist-'+id).classList.toggle('hidden',id!==d);
+  });
+  atualizarDistAtual();
+}
+
+function mudarSub(mostrar, btn, grupo){
+  document.querySelectorAll(`#dist-${distAtual} .sub-aba`).forEach(b=>b.classList.remove('ativo'));
+  btn.classList.add('ativo');
+  ['normal-tab','binomial-tab','poisson-tab'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.classList.add('hidden');
+  });
+  const el=document.getElementById(mostrar);
+  if(el) el.classList.remove('hidden');
 }
 
 // ── ALUNO: ENVIAR ─────────────────────────────────────────────
-function enviarDado() {
-  const val = parseFloat(document.getElementById('val-aluno').value);
-  if (isNaN(val)) { notif('Digite um valor válido!','r'); return; }
-  const entrada = {
-    nome: nomeAluno, valor: val,
-    variavel: varAtual ? varAtual.chave : '?',
-    unidade: varAtual ? varAtual.unidade : '',
-    hora: new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'})
+function enviarDado(){
+  const val=parseFloat(document.getElementById('val-aluno').value);
+  if(isNaN(val)){notif('Digite um valor válido!','r');return;}
+  const nodo=`ev_salas/${sala}/dados_${distAtual}`;
+  const entrada={
+    nome:nomeAluno,valor:val,
+    variavel:varAtual?varAtual.chave:distAtual,
+    unidade:varAtual?varAtual.unidade:'',
+    hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})
   };
-  if (modoFB) {
-    db.ref(`ev_salas/${sala}/dados`).push(entrada)
-      .then(mostrarEnviado).catch(() => mostrarEnviado());
-  } else { mostrarEnviado(); }
+  if(modoFB){
+    db.ref(nodo).push(entrada).then(mostrarEnviado).catch(()=>mostrarEnviado());
+  } else {
+    if(distAtual==='normal') dadosNormal['local_'+Date.now()]=entrada;
+    if(distAtual==='binomial') dadosBinomial['local_'+Date.now()]=entrada;
+    if(distAtual==='poisson') dadosPoisson['local_'+Date.now()]=entrada;
+    mostrarEnviado();
+  }
 }
 
-function mostrarEnviado() {
-  document.getElementById('form-aluno').style.display = 'none';
-  document.getElementById('enviado').style.display = 'block';
+function mostrarEnviado(){
+  document.getElementById('form-aluno').style.display='none';
+  document.getElementById('enviado').style.display='block';
   notif('Dado enviado!');
 }
-
-function voltarForm() {
-  document.getElementById('form-aluno').style.display = 'block';
-  document.getElementById('enviado').style.display = 'none';
-  document.getElementById('val-aluno').value = '';
-}
-
-// ── ESTATÍSTICA ───────────────────────────────────────────────
-function stats(d) {
-  if (!d || d.length === 0) return null;
-  const n = d.length;
-  const media = d.reduce((a,b) => a+b, 0) / n;
-  const dp = Math.sqrt(d.reduce((a,b) => a + Math.pow(b-media,2), 0) / (n>1?n-1:1));
-  const sorted = [...d].sort((a,b) => a-b);
-  const mediana = n%2===0 ? (sorted[n/2-1]+sorted[n/2])/2 : sorted[Math.floor(n/2)];
-  const p1 = (d.filter(v => Math.abs(v-media) <= dp).length/n*100).toFixed(1);
-  const p2 = (d.filter(v => Math.abs(v-media) <= 2*dp).length/n*100).toFixed(1);
-  const p3 = (d.filter(v => Math.abs(v-media) <= 3*dp).length/n*100).toFixed(1);
-  return { n, media, dp, mediana, min:sorted[0], max:sorted[n-1], p1, p2, p3 };
-}
-
-function npdf(x, mu, sig) {
-  return (1/(sig*Math.sqrt(2*Math.PI))) * Math.exp(-0.5*Math.pow((x-mu)/sig,2));
-}
-
-// ── GRÁFICOS ──────────────────────────────────────────────────
-function atualizarGraficos(dados) {
-  const st = stats(dados);
-  // Resumo
-  document.getElementById('r-n').textContent = dados.length;
-  if (st) {
-    document.getElementById('r-media').textContent = st.media.toFixed(1);
-    document.getElementById('r-dp').textContent = st.dp.toFixed(2);
-    document.getElementById('r-min').textContent = st.min;
-    document.getElementById('r-max').textContent = st.max;
-    document.getElementById('r-med').textContent = st.mediana.toFixed(1);
-    document.getElementById('s1').textContent = st.p1 + '%';
-    document.getElementById('s2').textContent = st.p2 + '%';
-    document.getElementById('s3').textContent = st.p3 + '%';
-  } else {
-    ['r-media','r-dp','r-min','r-max','r-med'].forEach(id => document.getElementById(id).textContent = '—');
-    ['s1','s2','s3'].forEach(id => document.getElementById(id).textContent = '0%');
-  }
-  desenharHistograma(dados, st);
-  desenharGaussiana(st);
-}
-
-function desenharHistograma(dados, st) {
-  const ctx = document.getElementById('ch').getContext('2d');
-  if (chartH) chartH.destroy();
-  if (!dados.length || !st) {
-    chartH = new Chart(ctx, {type:'bar', data:{labels:[],datasets:[]}, options:{responsive:true,maintainAspectRatio:false}});
-    return;
-  }
-  const bins = Math.max(5, Math.min(12, Math.ceil(Math.sqrt(dados.length))));
-  const larg = (st.max - st.min) / bins || 1;
-  const labels = [], dens = [], yNorm = [];
-  for (let i=0;i<bins;i++) {
-    const lo = st.min + i*larg, hi = lo+larg;
-    const mid = (lo+hi)/2;
-    labels.push(mid.toFixed(1));
-    dens.push(dados.filter(v => v>=lo && (v<hi||i===bins-1)).length / (dados.length*larg));
-    yNorm.push(npdf(mid, st.media, st.dp));
-  }
-  chartH = new Chart(ctx, {
-    data: { labels,
-      datasets:[
-        { type:'bar', label:'Dados da turma', data:dens,
-          backgroundColor:'rgba(59,130,246,.5)', borderColor:'rgba(59,130,246,.8)',
-          borderWidth:1, borderRadius:3 },
-        { type:'line', label:'Curva Normal', data:yNorm,
-          borderColor:'#f59e0b', borderWidth:2.5, fill:false, pointRadius:0, tension:.4 }
-      ]},
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{ labels:{ font:{size:10}, boxWidth:12 } } },
-      scales:{
-        x:{ title:{ display:true, text: varAtual ? `${varAtual.nome}${varAtual.unidade?' ('+varAtual.unidade+')':''}` : '', font:{size:10} } },
-        y:{ title:{ display:true, text:'Densidade', font:{size:10} }, beginAtZero:true }
-      }
-    }
-  });
-}
-
-function desenharGaussiana(st) {
-  const ctx = document.getElementById('cg').getContext('2d');
-  if (chartG) chartG.destroy();
-  if (!st) {
-    chartG = new Chart(ctx, {type:'line', data:{labels:[],datasets:[]}, options:{responsive:true,maintainAspectRatio:false}});
-    return;
-  }
-  const mu = st.media, sig = st.dp;
-  const xMin = mu - 4*sig, xMax = mu + 4*sig;
-  const N = 120;
-  const xs = Array.from({length:N}, (_,i) => xMin + (xMax-xMin)*i/(N-1));
-  const ys = xs.map(x => npdf(x,mu,sig));
-  const labels = xs.map(x => x.toFixed(2));
-  const fill = (lo,hi) => xs.map(x => (x>=lo&&x<=hi) ? npdf(x,mu,sig) : null);
-  chartG = new Chart(ctx, {
-    type:'line', data:{ labels,
-      datasets:[
-        { label:'±3σ (99,7%)', data:fill(mu-3*sig,mu+3*sig), fill:true, backgroundColor:'rgba(147,197,253,.3)', borderColor:'transparent', pointRadius:0, tension:.4, spanGaps:false },
-        { label:'±2σ (95%)',   data:fill(mu-2*sig,mu+2*sig), fill:true, backgroundColor:'rgba(110,231,183,.4)', borderColor:'transparent', pointRadius:0, tension:.4, spanGaps:false },
-        { label:'±1σ (68%)',   data:fill(mu-1*sig,mu+1*sig), fill:true, backgroundColor:'rgba(252,176,69,.55)',  borderColor:'transparent', pointRadius:0, tension:.4, spanGaps:false },
-        { label:'Curva Normal', data:ys, fill:false, borderColor:'#1a56db', borderWidth:2.5, pointRadius:0, tension:.4 }
-      ]},
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{ labels:{ font:{size:10}, boxWidth:12 } } },
-      scales:{
-        x:{ ticks:{ maxTicksLimit:7, font:{size:10} }, title:{ display:true, text: varAtual ? varAtual.nome : '', font:{size:10} } },
-        y:{ title:{ display:true, text:'Densidade', font:{size:10} }, beginAtZero:true }
-      }
-    }
-  });
-}
-
-// ── TABELA ────────────────────────────────────────────────────
-function atualizarTabela(lista) {
-  const tbody = document.getElementById('tbody');
-  tbody.innerHTML = '';
-  [...lista].reverse().forEach((d,i) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${lista.length-i}</td><td>${d.nome||'Anônimo'}</td><td>${d.variavel||'—'}</td><td><strong>${d.valor}</strong> ${d.unidade||''}</td><td>${d.hora||'—'}</td>`;
-    tbody.appendChild(tr);
-  });
+function voltarForm(){
+  document.getElementById('form-aluno').style.display='block';
+  document.getElementById('enviado').style.display='none';
+  document.getElementById('val-aluno').value='';
 }
 
 // ── DEMO ──────────────────────────────────────────────────────
-function carregarDemo() {
-  // Selecionar altura automaticamente
-  varAtual = varsPredefinidas.find(v => v.chave === 'altura') || varsPredefinidas[0];
-  renderizarVars();
-  if (modoFB) publicarConfig();
+function carregarDemo(){
+  const d=distAtual;
+  const nomes=['Ana','Beto','Carla','Diego','Elisa','Fábio','Gabi','Hugo','Íris','João',
+               'Karen','Léo','Mara','Neto','Olga','Pedro','Quitéria','Rafa','Sara','Tiago'];
 
-  const nomes = ['Ana','Beto','Carla','Diego','Elisa','Fábio','Gabi','Hugo','Íris','João',
-                 'Karen','Léo','Mara','Neto','Olga','Pedro','Quitéria','Rafa','Sara','Tiago'];
-  const alturas = [162,165,170,172,175,175,176,168,180,158,171,169,174,177,163,167,173,178,166,171];
-
-  if (modoFB) {
-    // Apagar dados antigos e inserir demo no Firebase
-    db.ref(`ev_salas/${sala}/dados`).remove().then(() => {
-      alturas.forEach((v,i) => {
-        db.ref(`ev_salas/${sala}/dados`).push({
-          nome: nomes[i], valor: v, variavel:'altura', unidade:'cm',
-          hora: `10:${String(i).padStart(2,'0')}`
-        });
+  if(d==='normal'){
+    varAtual=varsPre.find(v=>v.chave==='altura')||varsPre[0];
+    renderizarVars(); if(modoFB) publicarConfigNormal();
+    const alturas=[162,165,170,172,175,175,176,168,180,158,171,169,174,177,163,167,173,178,166,171];
+    if(modoFB){
+      db.ref(`ev_salas/${sala}/dados_normal`).remove().then(()=>{
+        alturas.forEach((v,i)=>db.ref(`ev_salas/${sala}/dados_normal`).push(
+          {nome:nomes[i],valor:v,variavel:'altura',unidade:'cm',hora:`10:${String(i).padStart(2,'0')}`}));
+        notif('Demo Normal carregado!');
       });
-      notif('Demo carregado no Firebase!');
+    } else {
+      dadosNormal={};
+      alturas.forEach((v,i)=>dadosNormal['d'+i]={nome:nomes[i],valor:v,variavel:'altura',unidade:'cm',hora:`10:${i}`});
+      atualizarNormal(); atualizarContador(); notif('Demo Normal carregado!');
+    }
+  } else if(d==='binomial'){
+    bnN=10; bnP=0.5;
+    document.getElementById('bn-n').value=10;
+    document.getElementById('bn-p').value=0.5;
+    // Gerar dados binomiais
+    const vals=nomes.map(()=>{let s=0;for(let i=0;i<10;i++) if(Math.random()<0.5) s++;return s;});
+    if(modoFB){
+      db.ref(`ev_salas/${sala}/dados_binomial`).remove().then(()=>{
+        vals.forEach((v,i)=>db.ref(`ev_salas/${sala}/dados_binomial`).push(
+          {nome:nomes[i],valor:v,variavel:'binomial',unidade:'',hora:`10:${String(i).padStart(2,'0')}`}));
+        notif('Demo Binomial carregado!');
+      });
+    } else {
+      dadosBinomial={};
+      vals.forEach((v,i)=>dadosBinomial['d'+i]={nome:nomes[i],valor:v,variavel:'binomial',unidade:'',hora:`10:${i}`});
+      recalcBinomial(false); notif('Demo Binomial carregado!');
+    }
+  } else if(d==='poisson'){
+    poLambda=3; document.getElementById('po-lambda').value=3;
+    const vals=nomes.map(()=>{
+      let k=0,p=Math.random();
+      while(p>Math.exp(-poLambda)){k++;p*=Math.random();}
+      return k;
     });
-  } else {
-    dadosObj = {};
-    alturas.forEach((v,i) => {
-      dadosObj['demo_'+i] = { nome:nomes[i], valor:v, variavel:'altura', unidade:'cm', hora:`10:${String(i).padStart(2,'0')}` };
-    });
-    const lista = Object.values(dadosObj);
-    atualizarGraficos(lista.map(d => d.valor));
-    atualizarTabela(lista);
-    document.getElementById('cnt-badge').textContent = `${lista.length} respostas`;
-    notif('Dados de demonstração carregados!');
+    if(modoFB){
+      db.ref(`ev_salas/${sala}/dados_poisson`).remove().then(()=>{
+        vals.forEach((v,i)=>db.ref(`ev_salas/${sala}/dados_poisson`).push(
+          {nome:nomes[i],valor:v,variavel:'poisson',unidade:'',hora:`10:${String(i).padStart(2,'0')}`}));
+        notif('Demo Poisson carregado!');
+      });
+    } else {
+      dadosPoisson={};
+      vals.forEach((v,i)=>dadosPoisson['d'+i]={nome:nomes[i],valor:v,variavel:'poisson',unidade:'',hora:`10:${i}`});
+      recalcPoisson(false); notif('Demo Poisson carregado!');
+    }
+  } else if(d==='qui'){
+    if(qiCategorias.length===0){
+      qiCategorias=[{nome:'A',esperado:25},{nome:'B',esperado:25},{nome:'C',esperado:25},{nome:'D',esperado:25}];
+      renderCatsQui();
+    }
+    qiCategorias.forEach((c,i)=>{ c.observado=Math.round(c.esperado+((Math.random()-0.5)*c.esperado*.6)); });
+    document.getElementById('qi-gl').value=qiCategorias.length-1; qiGL=qiCategorias.length-1;
+    recalcQui(false); desenharQui(); notif('Demo Qui-quadrado carregado!');
   }
 }
 
-// ── ABAS ──────────────────────────────────────────────────────
-function mudarAba(aba, btn) {
-  document.querySelectorAll('.aba').forEach(b => b.classList.remove('ativo'));
-  btn.classList.add('ativo');
-  document.getElementById('aba-gaussiana').classList.toggle('hidden', aba!=='gaussiana');
-  document.getElementById('aba-dados').classList.toggle('hidden', aba!=='dados');
-}
-
 // ── UTILS ─────────────────────────────────────────────────────
-function notif(msg, tipo='g') {
-  const el = document.getElementById('notif');
-  el.textContent = msg;
-  el.style.background = tipo==='r' ? '#ef4444' : tipo==='l' ? '#f59e0b' : '#10b981';
+function notif(msg,tipo='g'){
+  const el=document.getElementById('notif');
+  el.textContent=msg;
+  el.style.background=tipo==='r'?'#ef4444':tipo==='l'?'#f59e0b':'#10b981';
   el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 3000);
+  setTimeout(()=>el.classList.remove('show'),3000);
 }
 
-function limparDados() {
-  if (!confirm('Limpar todos os dados da sala?')) return;
-  if (modoFB) db.ref(`ev_salas/${sala}/dados`).remove();
-  dadosObj = {};
-  atualizarGraficos([]);
-  atualizarTabela([]);
-  document.getElementById('cnt-badge').textContent = '0 respostas';
+function limparDados(){
+  if(!confirm('Limpar todos os dados da sala atual?')) return;
+  const d=distAtual;
+  if(modoFB) db.ref(`ev_salas/${sala}/dados_${d}`).remove();
+  if(d==='normal')   dadosNormal={};
+  if(d==='binomial') dadosBinomial={};
+  if(d==='poisson')  dadosPoisson={};
+  if(d==='qui')      dadosQui={};
+  atualizarDistAtual(); atualizarContador();
   notif('Dados apagados!');
 }
 
-function encerrarSala() {
-  if (!confirm('Encerrar a sala e voltar ao início?')) return;
-  if (modoFB && listenerDados) listenerDados.off();
+function encerrarSala(){
+  if(!confirm('Encerrar a sala e voltar ao início?')) return;
+  Object.values(listeners).forEach(r=>r.off&&r.off());
   location.reload();
 }
 
-function exportarCSV() {
-  const lista = Object.values(dadosObj);
-  if (!lista.length) { notif('Nenhum dado para exportar!','r'); return; }
-  let csv = 'Nome,Variavel,Valor,Unidade,Hora\n';
-  lista.forEach(d => { csv += `${d.nome||'Anon'},${d.variavel||''},${d.valor},${d.unidade||''},${d.hora||''}\n`; });
-  const a = Object.assign(document.createElement('a'), {
-    href: URL.createObjectURL(new Blob([csv],{type:'text/csv'})),
-    download: `estatistica-viva-${sala}.csv`
+function exportarCSV(){
+  const lista=Object.values(dadosNormal);
+  if(!lista.length){notif('Nenhum dado para exportar!','r');return;}
+  let csv='Nome,Variavel,Valor,Unidade,Hora\n';
+  lista.forEach(d=>{csv+=`${d.nome||'Anon'},${d.variavel||''},${d.valor},${d.unidade||''},${d.hora||''}\n`;});
+  const a=Object.assign(document.createElement('a'),{
+    href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),
+    download:`ev-${sala}-normal.csv`
   });
   a.click();
 }
 
-// Fechar modal clicando fora
-document.getElementById('modal-var').addEventListener('click', function(e) {
-  if (e.target === this) fecharModal();
-});
+document.getElementById('modal-var').addEventListener('click',function(e){if(e.target===this)fecharModal();});
 </script>
 </body>
 </html>
