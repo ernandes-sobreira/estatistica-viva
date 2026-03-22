@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estatística Viva | Prof. Ernandes</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul: #1a56db;
+    --azul-claro: #3b82f6;
+    --verde: #10b981;
+    --laranja: #f59e0b;
+    --vermelho: #ef4444;
+    --lilas: #8b5cf6;
+    --cinza-claro: #f8fafc;
+    --cinza-borda: #e2e8f0;
+    --texto: #1e293b;
+    --texto-suave: #64748b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #ffffff;
+    color: var(--texto);
+    min-height: 100vh;
+  }
+
+  /* ====== TELA DE ENTRADA ====== */
+  #tela-entrada {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #eef2ff 0%, #f0fdf4 50%, #fff7ed 100%);
+    padding: 20px;
+  }
+
+  .logo-area {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .logo-icone {
+    width: 70px; height: 70px;
+    background: var(--azul);
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 32px;
+    box-shadow: 0 8px 24px rgba(26,86,219,0.3);
+  }
+
+  .logo-titulo {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--azul);
+    letter-spacing: -1px;
+  }
+
+  .logo-sub {
+    font-size: 0.85rem;
+    color: var(--texto-suave);
+    margin-top: 4px;
+  }
+
+  .cards-entrada {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .card-acesso {
+    background: white;
+    border-radius: 20px;
+    padding: 32px 28px;
+    flex: 1;
+    min-width: 300px;
+    max-width: 360px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    border: 2px solid transparent;
+    transition: border 0.2s, transform 0.2s;
+  }
+
+  .card-acesso:hover { border-color: var(--azul-claro); transform: translateY(-2px); }
+
+  .card-acesso h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .card-acesso p {
+    font-size: 0.82rem;
+    color: var(--texto-suave);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .badge-role {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .badge-prof { background: #dbeafe; color: var(--azul); }
+  .badge-aluno { background: #d1fae5; color: #065f46; }
+
+  .input-campo {
+    width: 100%;
+    padding: 11px 14px;
+    border: 2px solid var(--cinza-borda);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-family: 'DM Sans', sans-serif;
+    margin-bottom: 12px;
+    outline: none;
+    transition: border 0.2s;
+    background: var(--cinza-claro);
+  }
+
+  .input-campo:focus { border-color: var(--azul); background: white; }
+
+  .btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+  .btn:active { transform: scale(0.98); }
+
+  .btn-azul { background: var(--azul); color: white; }
+  .btn-verde { background: var(--verde); color: white; }
+  .btn-cinza { background: var(--cinza-borda); color: var(--texto); }
+  .btn-danger { background: var(--vermelho); color: white; }
+  .btn-sm { padding: 7px 14px; width: auto; font-size: 0.82rem; border-radius: 8px; }
+
+  /* ====== PAINEL PROFESSOR ====== */
+  #painel-professor {
+    display: none;
+    min-height: 100vh;
+    background: #f8fafc;
+  }
+
+  .header-prof {
+    background: white;
+    border-bottom: 2px solid var(--cinza-borda);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    position: sticky; top: 0; z-index: 100;
+  }
+
+  .header-prof-left {
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .codigo-sala-badge {
+    background: var(--azul);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+  }
+
+  .contador-badge {
+    background: var(--verde);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .painel-corpo {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* Abas */
+  .abas {
+    display: flex; gap: 4px;
+    background: white;
+    border: 2px solid var(--cinza-borda);
+    border-radius: 14px;
+    padding: 6px;
+    margin-bottom: 24px;
+    width: fit-content;
+    flex-wrap: wrap;
+  }
+
+  .aba-btn {
+    padding: 9px 20px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    background: transparent;
+    color: var(--texto-suave);
+    transition: all 0.2s;
+  }
+
+  .aba-btn.ativo {
+    background: var(--azul);
+    color: white;
+  }
+
+  /* Cards de resumo */
+  .cards-resumo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .card-resumo {
+    background: white;
+    border-radius: 14px;
+    padding: 18px;
+    border: 2px solid var(--cinza-borda);
+    text-align: center;
+  }
+
+  .card-resumo .valor {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--azul);
+  }
+
+  .card-resumo .label {
+    font-size: 0.78rem;
+    color: var(--texto-suave);
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Config da coleta */
+  .config-coleta {
+    background: white;
+    border-radius: 16px;
+    padding: 22px;
+    border: 2px solid var(--cinza-borda);
+    margin-bottom: 24px;
+  }
+
+  .config-coleta h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--texto);
+  }
+
+  .opcoes-variaveis {
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+
+  .opcao-var {
+    padding: 8px 16px;
+    border: 2px solid var(--cinza-borda);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    background: white;
+  }
+
+  .opcao-var.selecionada { border-color: var(--azul); background: #eff6ff; color: var(--azul); font-weight: 600; }
+  .opcao-var:hover { border-color: var(--azul-claro); }
+
+  /* Área de gráficos */
+  .area-graficos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 768px) { .area-graficos { grid-template-columns: 1fr; } }
+
+  .card-grafico {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    border: 2px solid var(--cinza-borda);
+  }
+
+  .card-grafico h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--texto);
+  }
+
+  .canvas-wrapper { position: relative; height: 240px; }
+
+  /* Tabela de dados */
+  .tabela-dados {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    border: 2px solid var(--cinza-borda);
+    overflow-x: auto;
+  }
+
+  .tabela-dados h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th { background: var(--cinza-claro); padding: 8px 12px; text-align: left; font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--texto-suave); }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--cinza-borda); }
+  tr:hover td { background: #f8fafc; }
+
+  /* Explicação didática */
+  .caixa-didatica {
+    background: linear-gradient(135deg, #eff6ff, #f0fdf4);
+    border-radius: 16px;
+    padding: 20px;
+    border: 2px solid #bfdbfe;
+    margin-bottom: 24px;
+  }
+
+  .caixa-didatica h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--azul);
+    margin-bottom: 10px;
+  }
+
+  .caixa-didatica p, .caixa-didatica li {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--texto);
+  }
+
+  .faixas-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .faixa-item {
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 0.82rem;
+  }
+
+  .faixa-1sigma { background: rgba(245,158,11,0.15); border-left: 4px solid var(--laranja); }
+  .faixa-2sigma { background: rgba(16,185,129,0.12); border-left: 4px solid var(--verde); }
+  .faixa-3sigma { background: rgba(59,130,246,0.12); border-left: 4px solid var(--azul-claro); }
+
+  /* ====== PAINEL ALUNO ====== */
+  #painel-aluno {
+    display: none;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0f9ff 0%, #f0fdf4 100%);
+    padding: 20px;
+  }
+
+  .card-aluno {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    max-width: 480px;
+    margin: 0 auto;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    border: 2px solid var(--cinza-borda);
+  }
+
+  .card-aluno h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .info-variavel {
+    background: #eff6ff;
+    border-radius: 12px;
+    padding: 14px;
+    margin: 16px 0;
+    border-left: 4px solid var(--azul);
+  }
+
+  .info-variavel .tipo-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--azul);
+  }
+
+  .info-variavel .tipo-nome {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 2px 0;
+  }
+
+  .info-variavel .tipo-desc {
+    font-size: 0.82rem;
+    color: var(--texto-suave);
+    line-height: 1.5;
+  }
+
+  .input-grande {
+    width: 100%;
+    padding: 18px;
+    border: 3px solid var(--cinza-borda);
+    border-radius: 14px;
+    font-size: 1.5rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    outline: none;
+    transition: border 0.2s;
+    margin: 16px 0;
+    color: var(--texto);
+  }
+
+  .input-grande:focus { border-color: var(--azul); }
+
+  .status-enviado {
+    text-align: center;
+    padding: 24px;
+    display: none;
+  }
+
+  .check-icon { font-size: 3rem; margin-bottom: 12px; }
+
+  .status-enviado h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--verde);
+    margin-bottom: 6px;
+  }
+
+  /* Loading */
+  .spinner {
+    width: 20px; height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top: 3px solid white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .pulse { animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+  /* Notificacao */
+  .notif {
+    position: fixed; top: 20px; right: 20px;
+    background: var(--verde); color: white;
+    padding: 12px 20px; border-radius: 12px;
+    font-size: 0.88rem; font-weight: 600;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    transform: translateX(200%);
+    transition: transform 0.3s;
+    z-index: 999;
+  }
+
+  .notif.show { transform: translateX(0); }
+
+  /* Sigma boxes */
+  .sigma-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .sigma-card {
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.78rem;
+  }
+
+  .s1 { background: rgba(245,158,11,0.12); color: #92400e; }
+  .s2 { background: rgba(16,185,129,0.12); color: #065f46; }
+  .s3 { background: rgba(59,130,246,0.12); color: #1e3a8a; }
+
+  .sigma-pct { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; }
+  .sigma-range { font-size: 0.72rem; margin-top: 2px; opacity: 0.8; }
+
+  .hidden { display: none !important; }
+  .text-center { text-align: center; }
+  .mt-8 { margin-top: 8px; }
+  .mt-16 { margin-top: 16px; }
+  .gap-8 { gap: 8px; }
+  .flex { display: flex; }
+  .flex-wrap { flex-wrap: wrap; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+
+  select.input-campo { appearance: none; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<!-- NOTIFICACAO -->
+<div class="notif" id="notif"></div>
+
+<!-- ======================== TELA ENTRADA ======================== -->
+<div id="tela-entrada">
+  <div class="logo-area">
+    <div class="logo-icone">📊</div>
+    <div class="logo-titulo">Estatística Viva</div>
+    <div class="logo-sub">Plataforma interativa de aprendizado em sala de aula</div>
+  </div>
+
+  <div class="cards-entrada">
+    <!-- Professor -->
+    <div class="card-acesso">
+      <div class="badge-role badge-prof">Professor</div>
+      <h2>Criar nova sala</h2>
+      <p>Defina o código que os alunos vão usar e uma senha para proteger seu painel.</p>
+      <input class="input-campo" type="text" id="codigo-prof-input" placeholder="Código da sala (ex: BIO01)" maxlength="8" style="text-transform:uppercase;letter-spacing:3px;font-weight:700;" />
+      <input class="input-campo" type="password" id="senha-prof" placeholder="Sua senha (só você sabe)" />
+      <input class="input-campo" type="password" id="senha-prof-confirm" placeholder="Confirme a senha" />
+      <button class="btn btn-azul" onclick="entrarProfessor()">Abrir sala</button>
+    </div>
+
+    <!-- Aluno -->
+    <div class="card-acesso">
+      <div class="badge-role badge-aluno">Aluno</div>
+      <h2>Entrar na sala</h2>
+      <p>Digite o código da sala que seu professor mostrou no projetor para inserir seus dados.</p>
+      <input class="input-campo" type="text" id="codigo-aluno" placeholder="Código da sala (ex: BIO01)" maxlength="8" style="text-transform:uppercase;letter-spacing:3px;font-weight:700;" />
+      <input class="input-campo" type="text" id="nome-aluno" placeholder="Seu nome (ou apelido)" />
+      <button class="btn btn-verde" onclick="entrarAluno()">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== PAINEL PROFESSOR ======================== -->
+<div id="painel-professor">
+  <div class="header-prof">
+    <div class="header-prof-left">
+      <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;">📊 Estatística Viva</span>
+      <span class="codigo-sala-badge" id="codigo-exibido">EST00</span>
+      <span class="contador-badge" id="badge-contador">0 respostas</span>
+      <span class="pulse" style="width:8px;height:8px;background:var(--verde);border-radius:50%;display:inline-block;" title="Ao vivo"></span>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-cinza btn-sm" onclick="limparDados()">Limpar dados</button>
+      <button class="btn btn-danger btn-sm" onclick="encerrarSala()">Encerrar sala</button>
+    </div>
+  </div>
+
+  <div class="painel-corpo">
+
+    <!-- Abas -->
+    <div class="abas">
+      <button class="aba-btn ativo" onclick="mudarAba('gaussiana', this)">Distribuição Normal</button>
+      <button class="aba-btn" onclick="mudarAba('dados', this)">Dados brutos</button>
+    </div>
+
+    <!-- ABA: Gaussiana -->
+    <div id="aba-gaussiana">
+
+      <!-- Config de coleta -->
+      <div class="config-coleta">
+        <h3>Variável sendo coletada</h3>
+        <div class="opcoes-variaveis" id="opcoes-vars">
+          <div class="opcao-var selecionada" onclick="selecionarVar(this, 'idade', 'Idade', 'anos', 'discreta', 'Variável DISCRETA: valores inteiros contáveis. Ex: 18, 19, 20 anos.')">Idade (anos)</div>
+          <div class="opcao-var" onclick="selecionarVar(this, 'altura', 'Altura', 'cm', 'continua', 'Variável CONTÍNUA: pode assumir qualquer valor em um intervalo. Ex: 167,5 cm.')">Altura (cm)</div>
+          <div class="opcao-var" onclick="selecionarVar(this, 'peso', 'Peso', 'kg', 'continua', 'Variável CONTÍNUA: pode assumir qualquer valor decimal. Ex: 68,3 kg.')">Peso (kg)</div>
+          <div class="opcao-var" onclick="selecionarVar(this, 'temperatura', 'Temperatura', '°C', 'continua', 'Variável CONTÍNUA: medida de temperatura corporal com casas decimais.')">Temperatura (°C)</div>
+          <div class="opcao-var" onclick="selecionarVar(this, 'filhos', 'N° de filhos', 'filhos', 'discreta', 'Variável DISCRETA: número inteiro de filhos. Não existe 1,5 filho.')">N° de filhos</div>
+        </div>
+      </div>
+
+      <!-- Caixa didática -->
+      <div class="caixa-didatica" id="caixa-didatica">
+        <h3>O que é a Distribuição Normal (Gaussiana)?</h3>
+        <p>A curva normal, chamada de "sino", descreve como muitos fenômenos biológicos se distribuem na natureza. A maioria dos valores se concentra no centro (média), e poucos valores aparecem nos extremos.</p>
+        <div class="faixas-info" id="faixas-info">
+          <div class="faixa-item faixa-1sigma">
+            <strong>68% dos dados</strong> estão dentro de ±1 desvio-padrão (σ) da média
+          </div>
+          <div class="faixa-item faixa-2sigma">
+            <strong>95% dos dados</strong> estão dentro de ±2 desvios-padrão da média
+          </div>
+          <div class="faixa-item faixa-3sigma">
+            <strong>99,7% dos dados</strong> estão dentro de ±3 desvios-padrão da média
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards de resumo -->
+      <div class="cards-resumo">
+        <div class="card-resumo">
+          <div class="valor" id="res-n">0</div>
+          <div class="label">Respostas</div>
+        </div>
+        <div class="card-resumo">
+          <div class="valor" id="res-media">-</div>
+          <div class="label">Média (μ)</div>
+        </div>
+        <div class="card-resumo">
+          <div class="valor" id="res-dp">-</div>
+          <div class="label">Desvio-padrão (σ)</div>
+        </div>
+        <div class="card-resumo">
+          <div class="valor" id="res-min">-</div>
+          <div class="label">Mínimo</div>
+        </div>
+        <div class="card-resumo">
+          <div class="valor" id="res-max">-</div>
+          <div class="label">Máximo</div>
+        </div>
+        <div class="card-resumo">
+          <div class="valor" id="res-mediana">-</div>
+          <div class="label">Mediana</div>
+        </div>
+      </div>
+
+      <!-- Sigma cards -->
+      <div class="sigma-cards" id="sigma-cards" style="margin-bottom:24px;">
+        <div class="sigma-card s1">
+          <div class="sigma-pct" id="pct-1sigma">0%</div>
+          <div class="sigma-range">dentro de ±1σ</div>
+          <div style="font-size:0.7rem;margin-top:4px;">esperado: 68,3%</div>
+        </div>
+        <div class="sigma-card s2">
+          <div class="sigma-pct" id="pct-2sigma">0%</div>
+          <div class="sigma-range">dentro de ±2σ</div>
+          <div style="font-size:0.7rem;margin-top:4px;">esperado: 95,4%</div>
+        </div>
+        <div class="sigma-card s3">
+          <div class="sigma-pct" id="pct-3sigma">0%</div>
+          <div class="sigma-range">dentro de ±3σ</div>
+          <div style="font-size:0.7rem;margin-top:4px;">esperado: 99,7%</div>
+        </div>
+      </div>
+
+      <!-- Gráficos -->
+      <div class="area-graficos">
+        <div class="card-grafico">
+          <h3>Histograma + Curva Gaussiana ajustada</h3>
+          <div class="canvas-wrapper">
+            <canvas id="grafico-histograma"></canvas>
+          </div>
+        </div>
+        <div class="card-grafico">
+          <h3>Curva Normal com faixas σ</h3>
+          <div class="canvas-wrapper">
+            <canvas id="grafico-gaussiana"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /aba-gaussiana -->
+
+    <!-- ABA: Dados brutos -->
+    <div id="aba-dados" class="hidden">
+      <div class="tabela-dados">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+          <h3 style="margin:0;">Dados inseridos pelos alunos</h3>
+          <button class="btn btn-cinza btn-sm" onclick="exportarCSV()">Exportar CSV</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nome</th>
+              <th>Variável</th>
+              <th>Valor</th>
+              <th>Horário</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-dados"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======================== PAINEL ALUNO ======================== -->
+<div id="painel-aluno">
+  <div style="max-width:480px;margin:0 auto;padding-top:20px;">
+
+    <div class="card-aluno">
+      <div class="badge-role badge-aluno">Aluno</div>
+      <h2 id="aluno-titulo">Insira seu dado</h2>
+      <p style="font-size:0.85rem;color:var(--texto-suave);margin-top:4px;" id="aluno-subtitulo">A turma está respondendo coletivamente!</p>
+
+      <div id="form-aluno">
+        <div class="info-variavel" id="info-variavel">
+          <div class="tipo-label" id="var-tipo-label">Variável Contínua</div>
+          <div class="tipo-nome" id="var-nome">Altura</div>
+          <div class="tipo-desc" id="var-desc">Variável CONTÍNUA: pode assumir qualquer valor em um intervalo.</div>
+        </div>
+
+        <input class="input-grande" type="number" id="valor-aluno" placeholder="0" step="any" />
+        <div style="text-align:center;font-size:0.8rem;color:var(--texto-suave);margin-top:-8px;margin-bottom:16px;" id="unidade-hint">Digite em centímetros (cm)</div>
+
+        <button class="btn btn-verde" onclick="enviarDado()">Enviar meu dado</button>
+      </div>
+
+      <div class="status-enviado" id="status-enviado">
+        <div class="check-icon">✅</div>
+        <h3>Dado enviado!</h3>
+        <p style="font-size:0.85rem;color:var(--texto-suave);">Seu valor foi registrado. Olhe para a tela do professor!</p>
+        <div style="margin-top:20px;">
+          <button class="btn btn-cinza" onclick="voltarFormAluno()" style="width:auto;padding:10px 20px;">Enviar outro</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CONFIGURAÇÃO FIREBASE
+// ============================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyCiHRozGb7oOabUdz-RtZvF7Uag0otYMOA",
+  authDomain: "biolab-unemat.firebaseapp.com",
+  databaseURL: "https://biolab-unemat-default-rtdb.firebaseio.com",
+  projectId: "biolab-unemat",
+  storageBucket: "biolab-unemat.firebasestorage.app",
+  messagingSenderId: "1044664862619",
+  appId: "1:1044664862619:web:363f9c714f6aa179c2833e"
+};
+
+// Estado global
+let db = null;
+let modoFirebase = false;
+let dadosLocais = {};
+let varAtual = { chave: 'idade', nome: 'Idade', unidade: 'anos', tipo: 'discreta', desc: 'Variável DISCRETA: valores inteiros contáveis.' };
+let chartHistograma = null;
+let chartGaussiana = null;
+let codigoSala = '';
+let nomeAluno = '';
+let listenerRef = null;
+let senhaSala = '';
+
+// Inicializar Firebase (biolab-unemat)
+function initFirebase() {
+  try {
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.database();
+    modoFirebase = true;
+  } catch(e) {
+    modoFirebase = false;
+  }
+}
+
+initFirebase();
+
+// Gerar código de sala aleatório
+function gerarCodigo() {
+  const letras = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  const nums = '23456789';
+  return letras[Math.floor(Math.random()*letras.length)] +
+         letras[Math.floor(Math.random()*letras.length)] +
+         letras[Math.floor(Math.random()*letras.length)] +
+         nums[Math.floor(Math.random()*nums.length)] +
+         nums[Math.floor(Math.random()*nums.length)];
+}
+
+// ============================================================
+// FUNÇÕES DE ENTRADA
+// ============================================================
+function entrarProfessor() {
+  const codigoDigitado = document.getElementById('codigo-prof-input').value.toUpperCase().trim();
+  const senha = document.getElementById('senha-prof').value.trim();
+  const senhaConfirm = document.getElementById('senha-prof-confirm').value.trim();
+
+  if (!codigoDigitado || codigoDigitado.length < 2) {
+    mostrarNotif('Digite um código para a sala!', 'vermelho'); return;
+  }
+  if (!senha || senha.length < 3) {
+    mostrarNotif('A senha precisa ter ao menos 3 caracteres!', 'vermelho'); return;
+  }
+  if (senha !== senhaConfirm) {
+    mostrarNotif('As senhas não coincidem!', 'vermelho'); return;
+  }
+
+  codigoSala = codigoDigitado;
+  senhaSala = senha;
+
+  // Verificar se sala já existe no Firebase
+  if (modoFirebase) {
+    db.ref(`salas/${codigoSala}/meta`).once('value', snap => {
+      if (snap.val() && snap.val().senha && snap.val().senha !== senha) {
+        mostrarNotif('Essa sala já existe com outra senha!', 'vermelho');
+        return;
+      }
+      // Salvar meta da sala
+      db.ref(`salas/${codigoSala}/meta`).set({ senha, criadaEm: new Date().toISOString() });
+      abrirPainelProfessor();
+    });
+  } else {
+    abrirPainelProfessor();
+  }
+}
+
+function abrirPainelProfessor() {
+  document.getElementById('codigo-exibido').textContent = codigoSala;
+  document.getElementById('tela-entrada').style.display = 'none';
+  document.getElementById('painel-professor').style.display = 'block';
+  iniciarListener();
+}
+
+function entrarAluno() {
+  codigoSala = document.getElementById('codigo-aluno').value.toUpperCase().trim();
+  nomeAluno = document.getElementById('nome-aluno').value.trim() || 'Anônimo';
+  if (codigoSala.length < 2) {
+    mostrarNotif('Digite o código da sala!', 'vermelho'); return;
+  }
+  if (!nomeAluno || nomeAluno === 'Anônimo') {
+    mostrarNotif('Digite seu nome!', 'vermelho'); return;
+  }
+
+  if (modoFirebase) {
+    // Verificar se sala existe
+    db.ref(`salas/${codigoSala}/meta`).once('value', snap => {
+      if (!snap.val()) {
+        mostrarNotif('Sala não encontrada. Confira o código!', 'vermelho'); return;
+      }
+      abrirPainelAluno();
+    });
+  } else {
+    abrirPainelAluno();
+  }
+}
+
+function abrirPainelAluno() {
+  document.getElementById('tela-entrada').style.display = 'none';
+  document.getElementById('painel-aluno').style.display = 'block';
+  document.getElementById('aluno-titulo').textContent = `Olá, ${nomeAluno}!`;
+  if (modoFirebase) buscarConfigSala();
+}
+
+// ============================================================
+// PROFESSOR: CONFIG DE VARIÁVEL
+// ============================================================
+function selecionarVar(el, chave, nome, unidade, tipo, desc) {
+  document.querySelectorAll('.opcao-var').forEach(o => o.classList.remove('selecionada'));
+  el.classList.add('selecionada');
+  varAtual = { chave, nome, unidade, tipo, desc };
+
+  // Publicar no Firebase para os alunos saberem
+  if (modoFirebase) {
+    db.ref(`salas/${codigoSala}/config`).set({ ...varAtual });
+  } else {
+    dadosLocais._config = varAtual;
+  }
+  atualizarGraficos(getDados());
+}
+
+function buscarConfigSala() {
+  if (!modoFirebase) return;
+  db.ref(`salas/${codigoSala}/config`).on('value', snap => {
+    if (snap.val()) {
+      varAtual = snap.val();
+      atualizarInfoAluno();
+    }
+  });
+}
+
+function atualizarInfoAluno() {
+  document.getElementById('var-tipo-label').textContent = varAtual.tipo === 'discreta' ? 'Variável Discreta' : 'Variável Contínua';
+  document.getElementById('var-nome').textContent = varAtual.nome;
+  document.getElementById('var-desc').textContent = varAtual.desc;
+  document.getElementById('unidade-hint').textContent = `Digite em ${varAtual.unidade}`;
+  document.getElementById('valor-aluno').step = varAtual.tipo === 'continua' ? '0.1' : '1';
+}
+
+// ============================================================
+// LISTENER DE DADOS (Firebase ou local)
+// ============================================================
+function iniciarListener() {
+  if (modoFirebase) {
+    // Publicar config inicial
+    db.ref(`salas/${codigoSala}/config`).set({ ...varAtual });
+
+    listenerRef = db.ref(`salas/${codigoSala}/dados`);
+    listenerRef.on('value', snap => {
+      dadosLocais = snap.val() || {};
+      const lista = Object.values(dadosLocais);
+      atualizarGraficos(lista.map(d => d.valor).filter(v => v !== undefined));
+      atualizarTabela(lista);
+      const n = lista.length;
+      document.getElementById('badge-contador').textContent = `${n} resposta${n !== 1 ? 's' : ''}`;
+    });
+  } else {
+    // Modo demonstração sem Firebase
+    dadosLocais = {};
+    atualizarGraficos([]);
+    atualizarTabela([]);
+    mostrarNotif('Modo demo: Firebase não configurado', 'laranja');
+  }
+}
+
+// ============================================================
+// ALUNO: ENVIAR DADO
+// ============================================================
+function enviarDado() {
+  const val = parseFloat(document.getElementById('valor-aluno').value);
+  if (isNaN(val)) {
+    mostrarNotif('Digite um valor válido!', 'vermelho');
+    return;
+  }
+
+  const entrada = {
+    nome: nomeAluno,
+    valor: val,
+    variavel: varAtual.chave,
+    unidade: varAtual.unidade,
+    hora: new Date().toLocaleTimeString('pt-BR')
+  };
+
+  if (modoFirebase) {
+    db.ref(`salas/${codigoSala}/dados`).push(entrada).then(() => {
+      mostrarEnviadoAluno();
+    }).catch(() => {
+      // fallback local
+      const k = Date.now().toString();
+      dadosLocais[k] = entrada;
+      mostrarEnviadoAluno();
+    });
+  } else {
+    const k = Date.now().toString();
+    dadosLocais[k] = entrada;
+    mostrarEnviadoAluno();
+  }
+}
+
+function mostrarEnviadoAluno() {
+  document.getElementById('form-aluno').style.display = 'none';
+  document.getElementById('status-enviado').style.display = 'block';
+  mostrarNotif('Dado enviado com sucesso!');
+}
+
+function voltarFormAluno() {
+  document.getElementById('form-aluno').style.display = 'block';
+  document.getElementById('status-enviado').style.display = 'none';
+  document.getElementById('valor-aluno').value = '';
+}
+
+// ============================================================
+// ESTATÍSTICA
+// ============================================================
+function calcularStats(dados) {
+  if (!dados || dados.length === 0) return null;
+  const n = dados.length;
+  const media = dados.reduce((a, b) => a + b, 0) / n;
+  const variancia = dados.reduce((a, b) => a + Math.pow(b - media, 2), 0) / (n > 1 ? n - 1 : 1);
+  const dp = Math.sqrt(variancia);
+  const sorted = [...dados].sort((a, b) => a - b);
+  const mediana = n % 2 === 0 ? (sorted[n/2-1] + sorted[n/2]) / 2 : sorted[Math.floor(n/2)];
+  const min = sorted[0];
+  const max = sorted[n-1];
+
+  const dentro1 = dados.filter(v => Math.abs(v - media) <= dp).length;
+  const dentro2 = dados.filter(v => Math.abs(v - media) <= 2 * dp).length;
+  const dentro3 = dados.filter(v => Math.abs(v - media) <= 3 * dp).length;
+
+  return { n, media, dp, mediana, min, max,
+    pct1: (dentro1/n*100).toFixed(1),
+    pct2: (dentro2/n*100).toFixed(1),
+    pct3: (dentro3/n*100).toFixed(1) };
+}
+
+function normalPDF(x, mu, sigma) {
+  return (1 / (sigma * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * Math.pow((x - mu) / sigma, 2));
+}
+
+// ============================================================
+// ATUALIZAR TELA
+// ============================================================
+function getDados() {
+  return Object.values(dadosLocais).map(d => d.valor).filter(v => v !== undefined);
+}
+
+function atualizarGraficos(dados) {
+  const st = calcularStats(dados);
+
+  // Resumo
+  document.getElementById('res-n').textContent = dados.length;
+  if (st) {
+    document.getElementById('res-media').textContent = st.media.toFixed(2);
+    document.getElementById('res-dp').textContent = st.dp.toFixed(2);
+    document.getElementById('res-min').textContent = st.min;
+    document.getElementById('res-max').textContent = st.max;
+    document.getElementById('res-mediana').textContent = st.mediana.toFixed(2);
+    document.getElementById('pct-1sigma').textContent = st.pct1 + '%';
+    document.getElementById('pct-2sigma').textContent = st.pct2 + '%';
+    document.getElementById('pct-3sigma').textContent = st.pct3 + '%';
+  }
+
+  if (dados.length < 3) {
+    desenharHistograma([], null);
+    desenharGaussiana(null);
+    return;
+  }
+
+  desenharHistograma(dados, st);
+  desenharGaussiana(st);
+}
+
+function desenharHistograma(dados, st) {
+  const ctx = document.getElementById('grafico-histograma').getContext('2d');
+  if (chartHistograma) chartHistograma.destroy();
+
+  if (!dados.length || !st) {
+    chartHistograma = new Chart(ctx, { type: 'bar', data: { labels: [], datasets: [] } });
+    return;
+  }
+
+  const n = dados.length;
+  const bins = Math.max(5, Math.min(15, Math.ceil(Math.sqrt(n))));
+  const min = st.min; const max = st.max;
+  const largura = (max - min) / bins || 1;
+
+  const contagens = Array(bins).fill(0);
+  const labels = [];
+  for (let i = 0; i < bins; i++) {
+    const lo = min + i * largura;
+    const hi = lo + largura;
+    labels.push(((lo + hi) / 2).toFixed(1));
+    dados.forEach(v => {
+      if (v >= lo && (v < hi || i === bins - 1)) contagens[i]++;
+    });
+  }
+
+  // Histograma normalizado (densidade)
+  const densidades = contagens.map(c => c / (n * largura));
+
+  // Curva Normal
+  const xCurva = labels.map(l => parseFloat(l));
+  const yCurva = xCurva.map(x => normalPDF(x, st.media, st.dp));
+
+  chartHistograma = new Chart(ctx, {
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Dados da turma',
+          data: densidades,
+          backgroundColor: 'rgba(59,130,246,0.55)',
+          borderColor: 'rgba(59,130,246,0.8)',
+          borderWidth: 1,
+          borderRadius: 4,
+        },
+        {
+          type: 'line',
+          label: 'Curva Normal ajustada',
+          data: yCurva,
+          borderColor: '#f59e0b',
+          borderWidth: 3,
+          fill: false,
+          pointRadius: 0,
+          tension: 0.4,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { font: { size: 11 } } },
+        tooltip: { mode: 'index', intersect: false }
+      },
+      scales: {
+        x: { title: { display: true, text: `${varAtual.nome} (${varAtual.unidade})`, font: { size: 11 } } },
+        y: { title: { display: true, text: 'Densidade', font: { size: 11 } }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+function desenharGaussiana(st) {
+  const ctx = document.getElementById('grafico-gaussiana').getContext('2d');
+  if (chartGaussiana) chartGaussiana.destroy();
+
+  if (!st) {
+    chartGaussiana = new Chart(ctx, { type: 'line', data: { labels: [], datasets: [] } });
+    return;
+  }
+
+  const mu = st.media; const sigma = st.dp;
+  const xMin = mu - 3.8 * sigma;
+  const xMax = mu + 3.8 * sigma;
+  const passos = 120;
+  const xs = Array.from({length: passos}, (_, i) => xMin + (xMax - xMin) * i / (passos - 1));
+  const ys = xs.map(x => normalPDF(x, mu, sigma));
+  const labels = xs.map(x => x.toFixed(2));
+
+  // Faixas sigma
+  function fillSigma(lo, hi, color) {
+    return xs.map(x => (x >= lo && x <= hi) ? normalPDF(x, mu, sigma) : null);
+  }
+
+  const d3lo = mu - 3*sigma, d3hi = mu + 3*sigma;
+  const d2lo = mu - 2*sigma, d2hi = mu + 2*sigma;
+  const d1lo = mu - 1*sigma, d1hi = mu + 1*sigma;
+
+  chartGaussiana = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: '99,7% (±3σ)',
+          data: fillSigma(d3lo, d3hi, null),
+          fill: true,
+          backgroundColor: 'rgba(147,197,253,0.35)',
+          borderColor: 'transparent',
+          pointRadius: 0,
+          tension: 0.4,
+          spanGaps: false,
+        },
+        {
+          label: '95% (±2σ)',
+          data: fillSigma(d2lo, d2hi, null),
+          fill: true,
+          backgroundColor: 'rgba(110,231,183,0.45)',
+          borderColor: 'transparent',
+          pointRadius: 0,
+          tension: 0.4,
+          spanGaps: false,
+        },
+        {
+          label: '68% (±1σ)',
+          data: fillSigma(d1lo, d1hi, null),
+          fill: true,
+          backgroundColor: 'rgba(252,176,69,0.5)',
+          borderColor: 'transparent',
+          pointRadius: 0,
+          tension: 0.4,
+          spanGaps: false,
+        },
+        {
+          label: 'Curva Normal',
+          data: ys,
+          fill: false,
+          borderColor: '#1a56db',
+          borderWidth: 3,
+          pointRadius: 0,
+          tension: 0.4,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { font: { size: 10 }, boxWidth: 14 } },
+      },
+      scales: {
+        x: {
+          ticks: { maxTicksLimit: 8, font: { size: 10 } },
+          title: { display: true, text: `${varAtual.nome} (${varAtual.unidade})`, font: { size: 11 } }
+        },
+        y: { title: { display: true, text: 'Densidade', font: { size: 11 } }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+// ============================================================
+// TABELA
+// ============================================================
+function atualizarTabela(lista) {
+  const tbody = document.getElementById('tbody-dados');
+  tbody.innerHTML = '';
+  [...lista].reverse().forEach((d, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${lista.length - i}</td><td>${d.nome || 'Anônimo'}</td><td>${d.variavel || varAtual.chave}</td><td><strong>${d.valor}</strong> ${d.unidade || varAtual.unidade}</td><td>${d.hora || '-'}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+// ============================================================
+// ABAS
+// ============================================================
+function mudarAba(aba, btn) {
+  document.querySelectorAll('.aba-btn').forEach(b => b.classList.remove('ativo'));
+  btn.classList.add('ativo');
+  document.getElementById('aba-gaussiana').classList.toggle('hidden', aba !== 'gaussiana');
+  document.getElementById('aba-dados').classList.toggle('hidden', aba !== 'dados');
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function mostrarNotif(msg, tipo = 'verde') {
+  const n = document.getElementById('notif');
+  n.textContent = msg;
+  n.style.background = tipo === 'vermelho' ? 'var(--vermelho)' : tipo === 'laranja' ? 'var(--laranja)' : 'var(--verde)';
+  n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 3000);
+}
+
+function limparDados() {
+  if (!confirm('Limpar todos os dados da sala?')) return;
+  if (modoFirebase) db.ref(`salas/${codigoSala}/dados`).remove();
+  dadosLocais = {};
+  atualizarGraficos([]);
+  atualizarTabela([]);
+  document.getElementById('badge-contador').textContent = '0 respostas';
+  mostrarNotif('Dados apagados!');
+}
+
+function encerrarSala() {
+  if (!confirm('Encerrar a sala e voltar ao início?')) return;
+  if (modoFirebase && listenerRef) listenerRef.off();
+  location.reload();
+}
+
+function exportarCSV() {
+  const lista = Object.values(dadosLocais);
+  if (!lista.length) { mostrarNotif('Nenhum dado para exportar!', 'vermelho'); return; }
+  let csv = 'Nome,Variável,Valor,Unidade,Horário\n';
+  lista.forEach(d => {
+    csv += `${d.nome || 'Anônimo'},${d.variavel || varAtual.chave},${d.valor},${d.unidade || varAtual.unidade},${d.hora || '-'}\n`;
+  });
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url;
+  a.download = `estatistica-viva-${codigoSala}.csv`;
+  a.click();
+}
+
+// ============================================================
+// DEMO: adicionar dados de teste automaticamente
+// ============================================================
+function adicionarDadoDemo() {
+  if (!modoFirebase) {
+    // Simular dados reais de uma turma (altura em cm, variavel continua)
+    const alturas = [162,165,170,172,175,175,176,168,180,158,171,169,174,177,163,167,173,178,166,171];
+    alturas.forEach((v, i) => {
+      dadosLocais['demo_'+i] = {
+        nome: 'Aluno ' + (i+1),
+        valor: v,
+        variavel: 'altura',
+        unidade: 'cm',
+        hora: '10:0'+i
+      };
+    });
+    const lista = Object.values(dadosLocais);
+    atualizarGraficos(lista.map(d => d.valor));
+    atualizarTabela(lista);
+    document.getElementById('badge-contador').textContent = `${lista.length} respostas`;
+    mostrarNotif('Dados de demonstração carregados!');
+  }
+}
+
+// Botão demo na tela do professor
+document.getElementById('painel-professor').addEventListener('click', function(e) {
+  if (e.target && e.target.id === 'btn-demo') adicionarDadoDemo();
+});
+
+// Injetar botão demo após render
+setTimeout(() => {
+  const hdr = document.querySelector('.header-prof > div:last-child');
+  if (hdr) {
+    const btn = document.createElement('button');
+    btn.id = 'btn-demo';
+    btn.className = 'btn btn-cinza btn-sm';
+    btn.textContent = 'Carregar demo';
+    hdr.insertBefore(btn, hdr.firstChild);
+  }
+}, 100);
+</script>
+</body>
+</html>
